@@ -1,3 +1,4 @@
+```
 #
 # Seção de Instalação
 # ------------------
@@ -23,5 +24,4 @@
 #    # Ou use o comando de inicialização específico do seu projeto,
 #    # ex: npm start, go run main.go, docker-compose up
 #
-#
-# alteração automática: adicionar validação de email
+```
