@@ -1,0 +1,132 @@
+```python
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+# Configuração da página
+st.set_page_config(page_title="Dashboard de Produtos", layout="wide")
+
+# Título da dashboard
+st.title("📊 Dashboard de Produtos Fictícios")
+
+# Geração de dados fictícios
+@st.cache_data
+def generate_product_data(num_products=100):
+    np.random.seed(42) # Para reprodutibilidade
+    data = {
+        "ID Produto": [f"PROD-{i:04d}" for i in range(1, num_products + 1)],
+        "Nome Produto": [f"Produto Aleatório {i}" for i in range(1, num_products + 1)],
+        "Categoria": np.random.choice(["Eletrônicos", "Vestuário", "Casa e Cozinha", "Esportes", "Livros"], num_products),
+        "Preço Unitário": np.round(np.random.uniform(10, 500, num_products), 2),
+        "Estoque": np.random.randint(0, 200, num_products),
+        "Data de Lançamento": pd.to_datetime(np.random.randint(
+            pd.Timestamp('2022-01-01').value,
+            pd.Timestamp('2023-12-31').value,
+            num_products
+        )),
+        "Vendas Mensais": np.random.randint(5, 100, num_products)
+    }
+    df = pd.DataFrame(data)
+    df["Valor Total em Estoque"] = df["Preço Unitário"] * df["Estoque"]
+    df["Receita Mensal Estimada"] = df["Preço Unitário"] * df["Vendas Mensais"]
+    return df
+
+df_products = generate_product_data()
+
+# --- Sidebar para Filtros ---
+st.sidebar.header("Filtros")
+
+# Filtro por Categoria
+categorias = ["Todas"] + sorted(df_products["Categoria"].unique().tolist())
+selected_categoria = st.sidebar.selectbox("Filtrar por Categoria:", categorias)
+
+# Filtro por Preço
+min_price, max_price = st.sidebar.slider(
+    "Filtrar por Preço Unitário:",
+    float(df_products["Preço Unitário"].min()),
+    float(df_products["Preço Unitário"].max()),
+    (float(df_products["Preço Unitário"].min()), float(df_products["Preço Unitário"].max()))
+)
+
+# Filtro por Estoque
+min_stock, max_stock = st.sidebar.slider(
+    "Filtrar por Estoque:",
+    int(df_products["Estoque"].min()),
+    int(df_products["Estoque"].max()),
+    (int(df_products["Estoque"].min()), int(df_products["Estoque"].max()))
+)
+
+# --- Aplicação dos Filtros ---
+df_filtered = df_products.copy()
+
+if selected_categoria != "Todas":
+    df_filtered = df_filtered[df_filtered["Categoria"] == selected_categoria]
+
+df_filtered = df_filtered[
+    (df_filtered["Preço Unitário"] >= min_price) & (df_filtered["Preço Unitário"] <= max_price) &
+    (df_filtered["Estoque"] >= min_stock) & (df_filtered["Estoque"] <= max_stock)
+]
+
+# --- Métricas Principais ---
+st.subheader("Visão Geral das Vendas e Estoque")
+
+col1, col2, col3, col4 = st.columns(4)
+
+total_revenue_monthly = df_filtered["Receita Mensal Estimada"].sum()
+total_stock_value = df_filtered["Valor Total em Estoque"].sum()
+average_price = df_filtered["Preço Unitário"].mean()
+total_items_in_stock = df_filtered["Estoque"].sum()
+
+col1.metric("Receita Mensal Estimada", f"R$ {total_revenue_monthly:,.2f}")
+col2.metric("Valor Total em Estoque", f"R$ {total_stock_value:,.2f}")
+col3.metric("Preço Médio Unitário", f"R$ {average_price:,.2f}")
+col4.metric("Total de Itens em Estoque", f"{total_items_in_stock:,}")
+
+st.markdown("---")
+
+# --- Visualizações ---
+st.subheader("Análise Gráfica")
+
+# Distribuição de Preços por Categoria
+st.subheader("Distribuição de Preços por Categoria")
+fig_price_dist = px.box(df_filtered, y="Preço Unitário", x="Categoria", color="Categoria",
+                        title="Distribuição de Preços por Categoria")
+st.plotly_chart(fig_price_dist, use_container_width=True)
+
+# Receita Mensal Estimada por Categoria
+st.subheader("Receita Mensal Estimada por Categoria")
+revenue_by_category = df_filtered.groupby("Categoria")["Receita Mensal Estimada"].sum().reset_index()
+fig_revenue_cat = px.bar(revenue_by_category, x="Categoria", y="Receita Mensal Estimada",
+                         color="Categoria", title="Receita Mensal Estimada por Categoria")
+st.plotly_chart(fig_revenue_cat, use_container_width=True)
+
+# Estoque Atual vs. Vendas Mensais
+st.subheader("Estoque Atual vs. Vendas Mensais")
+fig_stock_sales = px.scatter(df_filtered, x="Estoque", y="Vendas Mensais",
+                             color="Categoria", hover_name="Nome Produto",
+                             title="Estoque Atual vs. Vendas Mensais por Categoria")
+st.plotly_chart(fig_stock_sales, use_container_width=True)
+
+# Gráfico de Linha: Vendas Mensais ao Longo do Tempo (considerando a data de lançamento para simular tendência)
+st.subheader("Tendência de Vendas Mensais (Simulada)")
+df_time_series = df_filtered.copy()
+# Para simular uma tendência, vamos agrupar por mês e ano da data de lançamento
+df_time_series['AnoMes'] = df_time_series['Data de Lançamento'].dt.to_period('M').astype(str)
+sales_trend = df_time_series.groupby('AnoMes')['Vendas Mensais'].sum().reset_index()
+sales_trend['AnoMes'] = pd.to_datetime(sales_trend['AnoMes']) # Converte para datetime para melhor plotagem
+fig_sales_trend = px.line(sales_trend, x='AnoMes', y='Vendas Mensais',
+                          title="Tendência de Vendas Mensais ao Longo do Tempo (Simulado)")
+st.plotly_chart(fig_sales_trend, use_container_width=True)
+
+
+# --- Tabela de Dados ---
+st.subheader("Dados Detalhados dos Produtos")
+st.dataframe(df_filtered)
+
+# --- Informações Adicionais ---
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Sobre")
+st.sidebar.info("Esta é uma dashboard de demonstração com dados fictícios de produtos.")
+st.sidebar.markdown("Utiliza Streamlit e Plotly para visualização.")
+```
