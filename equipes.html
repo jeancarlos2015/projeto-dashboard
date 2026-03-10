@@ -1,0 +1,212 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Equipes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+        }
+        thead th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+        }
+        tbody tr {
+            background-color: #e9ecef;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        tbody tr:hover {
+            background-color: #dee2e6;
+            transform: translateY(-3px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        tbody td {
+            border-bottom: 1px solid #ccc;
+        }
+        tbody td:first-child {
+            border-radius: 0 0 0 5px;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 5px;
+        }
+        tbody tr:last-child td:last-child {
+            border-radius: 0 0 5px 0;
+        }
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            vertical-align: middle;
+            border: 2px solid #007bff;
+        }
+        .team-name {
+            font-weight: bold;
+            color: #0056b3;
+            vertical-align: middle;
+        }
+        .stats-value {
+            font-weight: 500;
+        }
+        .positive {
+            color: #28a745;
+        }
+        .negative {
+            color: #dc3545;
+        }
+        .neutral {
+            color: #6c757d;
+        }
+        .filter-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .filter-container label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .filter-container select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
+            transition: border-color 0.2s ease-in-out;
+        }
+        .filter-container select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ranking de Equipes Fictícias</h1>
+
+        <div class="filter-container">
+            <label for="category-filter">Filtrar por Categoria:</label>
+            <select id="category-filter">
+                <option value="all">Todas</option>
+                <option value="esports">Esports</option>
+                <option value="automobilismo">Automobilismo</option>
+                <option value="futebol">Futebol</option>
+            </select>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Equipe</th>
+                    <th>Pontos</th>
+                    <th>Vitórias</th>
+                    <th>Derrotas</th>
+                    <th>Empates</th>
+                    <th>Jogos Disputados</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+            <tbody id="team-table-body">
+                <!-- Os dados das equipes serão inseridos aqui via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const teamsData = [
+            { id: 1, name: "Dragons Fury", logo: "https://via.placeholder.com/40/FF5733/FFFFFF?text=DF", points: 150, wins: 15, losses: 2, draws: 3, gamesPlayed: 20, category: "esports" },
+            { id: 2, name: "Phoenix Wings", logo: "https://via.placeholder.com/40/33FF57/FFFFFF?text=PW", points: 135, wins: 13, losses: 3, draws: 4, gamesPlayed: 20, category: "esports" },
+            { id: 3, name: "Cybernetic Lions", logo: "https://via.placeholder.com/40/3357FF/FFFFFF?text=CL", points: 120, wins: 12, losses: 4, draws: 4, gamesPlayed: 20, category: "esports" },
+            { id: 4, name: "Velocity Racing", logo: "https://via.placeholder.com/40/FF33A1/FFFFFF?text=VR", points: 160, wins: 16, losses: 1, draws: 3, gamesPlayed: 20, category: "automobilismo" },
+            { id: 5, name: "Apex Speedsters", logo: "https://via.placeholder.com/40/F1C40F/FFFFFF?text=AS", points: 145, wins: 14, losses: 2, draws: 4, gamesPlayed: 20, category: "automobilismo" },
+            { id: 6, name: "Thunderbolt Motors", logo: "https://via.placeholder.com/40/9B59B6/FFFFFF?text=TM", points: 130, wins: 13, losses: 3, draws: 4, gamesPlayed: 20, category: "automobilismo" },
+            { id: 7, name: "Golden Eagles FC", logo: "https://via.placeholder.com/40/E74C3C/FFFFFF?text=GE", points: 170, wins: 17, losses: 1, draws: 2, gamesPlayed: 20, category: "futebol" },
+            { id: 8, name: "Iron Bulls SC", logo: "https://via.placeholder.com/40/2ECC71/FFFFFF?text=IB", points: 155, wins: 15, losses: 2, draws: 3, gamesPlayed: 20, category: "futebol" },
+            { id: 9, name: "Azure Strikers", logo: "https://via.placeholder.com/40/3498DB/FFFFFF?text=AS", points: 140, wins: 14, losses: 3, draws: 3, gamesPlayed: 20, category: "futebol" },
+            { id: 10, name: "Starlight Warriors", logo: "https://via.placeholder.com/40/5D6D7E/FFFFFF?text=SW", points: 110, wins: 11, losses: 5, draws: 4, gamesPlayed: 20, category: "esports" },
+            { id: 11, name: "Cosmic Racers", logo: "https://via.placeholder.com/40/D35400/FFFFFF?text=CR", points: 115, wins: 11, losses: 4, draws: 5, gamesPlayed: 20, category: "automobilismo" },
+            { id: 12, name: "Emerald Blades", logo: "https://via.placeholder.com/40/1ABC9C/FFFFFF?text=EB", points: 125, wins: 12, losses: 4, draws: 4, gamesPlayed: 20, category: "futebol" }
+        ];
+
+        const tableBody = document.getElementById('team-table-body');
+        const categoryFilter = document.getElementById('category-filter');
+
+        function renderTable(teams) {
+            tableBody.innerHTML = ''; // Limpa o corpo da tabela
+            teams.forEach((team, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>
+                        <img src="${team.logo}" alt="${team.name} logo" class="team-logo">
+                        <span class="team-name">${team.name}</span>
+                    </td>
+                    <td class="stats-value">${team.points}</td>
+                    <td class="stats-value positive">${team.wins}</td>
+                    <td class="stats-value negative">${team.losses}</td>
+                    <td class="stats-value neutral">${team.draws}</td>
+                    <td class="stats-value">${team.gamesPlayed}</td>
+                    <td>${team.category}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterTeams() {
+            const selectedCategory = categoryFilter.value;
+            let filteredTeams = teamsData;
+
+            if (selectedCategory !== 'all') {
+                filteredTeams = teamsData.filter(team => team.category === selectedCategory);
+            }
+
+            // Ordena por pontos em ordem decrescente antes de renderizar
+            filteredTeams.sort((a, b) => b.points - a.points);
+
+            renderTable(filteredTeams);
+        }
+
+        // Event listener para o filtro
+        categoryFilter.addEventListener('change', filterTeams);
+
+        // Renderiza a tabela inicial com todos os times
+        filterTeams(); // Chama filterTeams para garantir que a ordenação seja aplicada inicialmente
+    </script>
+</body>
+</html>
+```
