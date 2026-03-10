@@ -20,7 +20,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: relative; /* Necessário para posicionar o botão */
+            position: relative;
         }
         h1 {
             text-align: center;
@@ -186,7 +186,7 @@
         const categoryFilter = document.getElementById('category-filter');
 
         function renderTable(teams) {
-            tableBody.innerHTML = ''; // Limpa o corpo da tabela
+            tableBody.innerHTML = '';
             teams.forEach((team, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -214,17 +214,14 @@
                 filteredTeams = teamsData.filter(team => team.category === selectedCategory);
             }
 
-            // Ordena por pontos em ordem decrescente antes de renderizar
             filteredTeams.sort((a, b) => b.points - a.points);
 
             renderTable(filteredTeams);
         }
 
-        // Event listener para o filtro
         categoryFilter.addEventListener('change', filterTeams);
 
-        // Renderiza a tabela inicial com todos os times
-        filterTeams(); // Chama filterTeams para garantir que a ordenação seja aplicada inicialmente
+        filterTeams();
     </script>
 </body>
 </html>
