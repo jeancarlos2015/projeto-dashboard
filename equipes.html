@@ -20,6 +20,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative; /* Necessário para posicionar o botão */
         }
         h1 {
             text-align: center;
@@ -111,11 +112,30 @@
             outline: none;
             border-color: #007bff;
         }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease-in-out;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Ranking de Equipes Fictícias</h1>
+
+        <a href="dashboard.html" class="back-button">Voltar para Dashboard</a>
 
         <div class="filter-container">
             <label for="category-filter">Filtrar por Categoria:</label>
