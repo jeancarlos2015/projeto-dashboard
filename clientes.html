@@ -15,13 +15,14 @@
     <main>
         <section class="data-section">
             <h2>Dados do Cliente</h2>
-            <div id="customer-data">
+            <div id="customer-data" class="customer-info-container">
                 <p><strong>ID:</strong> <span id="customer-id">-</span></p>
                 <p><strong>Nome:</strong> <span id="customer-name">-</span></p>
                 <p><strong>Email:</strong> <span id="customer-email">-</span></p>
                 <p><strong>Idade:</strong> <span id="customer-age">-</span></p>
                 <p><strong>Cidade:</strong> <span id="customer-city">-</span></p>
             </div>
+            <button id="next-customer-btn" class="nav-button">Próximo Cliente</button>
         </section>
 
         <section class="charts-section">
@@ -42,58 +43,135 @@ body {
     margin: 0;
     background-color: #f4f7f6;
     color: #333;
+    line-height: 1.6;
 }
 
 header {
     background-color: #2c3e50;
     color: #ecf0f1;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
 }
 
 main {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 20px auto;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    padding: 0 20px 30px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .data-section, .charts-section {
     background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.data-section:hover, .charts-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .data-section h2, .charts-section h2 {
     color: #2c3e50;
     margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
 }
 
-#customer-data p {
-    margin: 8px 0;
-    font-size: 1.1em;
+.customer-info-container p {
+    margin: 12px 0;
+    font-size: 1.15em;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
 }
 
-#customer-data strong {
+.customer-info-container p:last-child {
+    border-bottom: none;
+}
+
+.customer-info-container strong {
     color: #7f8c8d;
+    min-width: 80px;
+    display: inline-block;
 }
 
 .chart {
     width: 100%;
-    height: 400px;
+    height: 450px;
+    margin-top: 30px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.nav-button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.nav-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.nav-button:active {
+    transform: translateY(0px);
 }
 
 @media (max-width: 768px) {
     main {
         grid-template-columns: 1fr;
+        padding: 0 15px 20px 15px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .data-section h2, .charts-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .customer-info-container p {
+        font-size: 1.1em;
+    }
+
+    .chart {
+        height: 380px;
+    }
+}
+
+@media (max-width: 480px) {
+    .data-section, .charts-section {
+        padding: 20px;
+    }
+
+    .nav-button {
+        padding: 10px 20px;
+        font-size: 1em;
     }
 }
 ```
@@ -105,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const customerEmailSpan = document.getElementById('customer-email');
     const customerAgeSpan = document.getElementById('customer-age');
     const customerCitySpan = document.getElementById('customer-city');
+    const nextCustomerBtn = document.getElementById('next-customer-btn');
 
     const ageDistributionChartDiv = document.getElementById('age-distribution-chart');
     const cityDistributionChartDiv = document.getElementById('city-distribution-chart');
@@ -123,7 +202,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 10, nome: 'Jane Doe', email: 'jane.doe@example.com', idade: 33, cidade: 'Los Angeles' }
     ];
 
-    // Função para exibir dados de um cliente específico (simulando seleção)
+    let currentCustomerIndex = 0;
+
+    // Função para exibir dados de um cliente específico
     function displayCustomerData(customer) {
         if (customer) {
             customerIdSpan.textContent = customer.id;
@@ -140,6 +221,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Função para avançar para o próximo cliente
+    function showNextCustomer() {
+        currentCustomerIndex = (currentCustomerIndex + 1) % customers.length;
+        displayCustomerData(customers[currentCustomerIndex]);
+    }
+
     // Função para criar o gráfico de distribuição de idades
     function createAgeDistributionChart(data) {
         const ages = data.map(c => c.idade);
@@ -148,19 +235,44 @@ document.addEventListener('DOMContentLoaded', function() {
             x: ages,
             type: 'histogram',
             marker: {
-                color: '#3498db'
-            }
+                color: '#3498db',
+                line: {
+                    color: '#2980b9',
+                    width: 1
+                }
+            },
+            opacity: 0.75
         };
 
         const layout = {
-            title: 'Distribuição de Idades dos Clientes',
+            title: {
+                text: 'Distribuição de Idades dos Clientes',
+                font: {
+                    size: 20
+                }
+            },
             xaxis: {
-                title: 'Idade'
+                title: 'Idade',
+                titlefont: {
+                    size: 14
+                },
+                tickfont: {
+                    size: 12
+                }
             },
             yaxis: {
-                title: 'Frequência'
+                title: 'Frequência',
+                titlefont: {
+                    size: 14
+                },
+                tickfont: {
+                    size: 12
+                }
             },
-            bargap: 0.1
+            bargap: 0.1,
+            margin: { t: 50, b: 50, l: 50, r: 20 },
+            plot_bgcolor: '#f9f9f9',
+            paper_bgcolor: '#f9f9f9'
         };
 
         Plotly.newPlot(ageDistributionChartDiv, [trace], layout);
@@ -184,35 +296,43 @@ document.addEventListener('DOMContentLoaded', function() {
             textinfo: 'label+percent',
             insidetextorientation: 'radial',
             marker: {
-                colors: ['#e74c3c', '#f39c12', '#2ecc71', '#9b59b6', '#34495e']
-            }
+                colors: ['#e74c3c', '#f39c12', '#2ecc71', '#9b59b6', '#34495e', '#1abc9c', '#e67e22']
+            },
+            hole: .4 // Para um gráfico de rosca
         };
 
         const layout = {
-            title: 'Distribuição de Clientes por Cidade',
-            height: 400,
-            margin: { t: 40, b: 40, l: 40, r: 40 }
+            title: {
+                text: 'Distribuição de Clientes por Cidade',
+                font: {
+                    size: 20
+                }
+            },
+            height: 450,
+            margin: { t: 50, b: 50, l: 50, r: 50 },
+            showlegend: true,
+            legend: {
+                orientation: "h",
+                yanchor: "bottom",
+                y: 1.02,
+                xanchor: "right",
+                x: 1
+            },
+            plot_bgcolor: '#f9f9f9',
+            paper_bgcolor: '#f9f9f9'
         };
 
         Plotly.newPlot(cityDistributionChartDiv, [trace], layout);
     }
 
-    // Exibir dados do primeiro cliente por padrão
-    displayCustomerData(customers[0]);
+    // Inicializar a exibição do primeiro cliente
+    displayCustomerData(customers[currentCustomerIndex]);
 
     // Criar os gráficos
     createAgeDistributionChart(customers);
     createCityDistributionChart(customers);
 
-    // Adicionar evento de clique para simular a seleção de cliente (opcional, para demonstração)
-    // Neste exemplo, clicamos no primeiro cliente para exibir seus dados.
-    // Em uma aplicação real, isso seria acionado por uma tabela, lista ou outro controle.
-    const customerDataContainer = document.getElementById('customer-data');
-    customerDataContainer.addEventListener('click', function() {
-        // Para esta demonstração, vamos alternar entre os clientes
-        const currentId = parseInt(customerIdSpan.textContent);
-        const nextCustomer = customers.find(c => c.id === (currentId % customers.length) + 1);
-        displayCustomerData(nextCustomer);
-    });
+    // Adicionar evento de clique para o botão de próximo cliente
+    nextCustomerBtn.addEventListener('click', showNextCustomer);
 });
 ```
