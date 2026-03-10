@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Produtos</title>
+    <title>Dashboard de Processos Automatizados</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
@@ -65,82 +65,82 @@
                 <h2>Menu</h2>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard de Produtos</a>
+                        <a class="nav-link" href="#">Dashboard de Processos Automatizados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="clientes.html">Clientes</a>
+                        <a class="nav-link" href="equipes.html">Equipes</a>
                     </li>
                 </ul>
                 <hr>
                 <h2>Filtros</h2>
                 <div class="mb-3">
-                    <label for="categoriaSelect" class="form-label">Filtrar por Categoria:</label>
-                    <select id="categoriaSelect" class="form-select">
-                        <option value="Todas">Todas</option>
+                    <label for="statusSelect" class="form-label">Filtrar por Status:</label>
+                    <select id="statusSelect" class="form-select">
+                        <option value="Todos">Todos</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="precoSlider" class="form-label">Filtrar por Preço Unitário:</label>
-                    <input type="range" class="form-range" id="precoSliderMin" value="0"> - <input type="range" class="form-range" id="precoSliderMax" value="0">
-                    <div id="precoRangeValues"></div>
+                    <label for="duracaoSlider" class="form-label">Filtrar por Duração (Horas):</label>
+                    <input type="range" class="form-range" id="duracaoSliderMin" value="0"> - <input type="range" class="form-range" id="duracaoSliderMax" value="0">
+                    <div id="duracaoRangeValues"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="estoqueSlider" class="form-label">Filtrar por Estoque:</label>
-                    <input type="range" class="form-range" id="estoqueSliderMin" value="0"> - <input type="range" class="form-range" id="estoqueSliderMax" value="0">
-                    <div id="estoqueRangeValues"></div>
+                    <label for="falhasSlider" class="form-label">Filtrar por Falhas:</label>
+                    <input type="range" class="form-range" id="falhasSliderMin" value="0"> - <input type="range" class="form-range" id="falhasSliderMax" value="0">
+                    <div id="falhasRangeValues"></div>
                 </div>
                 <hr>
                 <h3>Sobre</h3>
-                <p class="text-muted">Esta é uma dashboard de demonstração com dados fictícios de produtos. Utiliza HTML, CSS e Plotly.js para visualização.</p>
+                <p class="text-muted">Esta é uma dashboard de demonstração com dados fictícios de processos automatizados. Utiliza HTML, CSS e Plotly.js para visualização.</p>
             </div>
             <div class="col-md-9 main-content">
-                <h1>📊 Dashboard de Produtos Fictícios</h1>
+                <h1>🤖 Dashboard de Processos Automatizados Fictícios</h1>
 
-                <h2>Visão Geral das Vendas e Estoque</h2>
+                <h2>Visão Geral do Desempenho</h2>
                 <div class="row">
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricReceitaTitulo">Receita Mensal Estimada</h4><p id="metricReceitaValor">R$ 0,00</p></div></div>
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricEstoqueTitulo">Valor Total em Estoque</h4><p id="metricEstoqueValor">R$ 0,00</p></div></div>
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricPrecoMedioTitulo">Preço Médio Unitário</h4><p id="metricPrecoMedioValor">R$ 0,00</p></div></div>
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricTotalItensTitulo">Total de Itens em Estoque</h4><p id="metricTotalItensValor">0</p></div></div>
+                    <div class="col-md-3"><div class="metric-card"><h4 id="metricExecucoesTitulo">Total de Execuções</h4><p id="metricExecucoesValor">0</p></div></div>
+                    <div class="col-md-3"><div class="metric-card"><h4 id="metricSucessoTitulo">Taxa de Sucesso (%)</h4><p id="metricSucessoValor">0.00</p></div></div>
+                    <div class="col-md-3"><div class="metric-card"><h4 id="metricDuracaoMediaTitulo">Duração Média (Horas)</h4><p id="metricDuracaoMediaValor">0.00</p></div></div>
+                    <div class="col-md-3"><div class="metric-card"><h4 id="metricTotalFalhasTitulo">Total de Falhas</h4><p id="metricTotalFalhasValor">0</p></div></div>
                 </div>
                 <hr>
 
                 <h2>Análise Gráfica</h2>
 
-                <div id="figPriceDistContainer" class="plotly-chart-container">
-                    <h3>Distribuição de Preços por Categoria</h3>
-                    <div id="figPriceDist"></div>
+                <div id="figStatusDistContainer" class="plotly-chart-container">
+                    <h3>Distribuição de Status por Tipo de Processo</h3>
+                    <div id="figStatusDist"></div>
                 </div>
 
-                <div id="figRevenueCatContainer" class="plotly-chart-container">
-                    <h3>Receita Mensal Estimada por Categoria</h3>
-                    <div id="figRevenueCat"></div>
+                <div id="figExecucoesCatContainer" class="plotly-chart-container">
+                    <h3>Execuções Mensais por Tipo de Processo</h3>
+                    <div id="figExecucoesCat"></div>
                 </div>
 
-                <div id="figStockSalesContainer" class="plotly-chart-container">
-                    <h3>Estoque Atual vs. Vendas Mensais</h3>
-                    <div id="figStockSales"></div>
+                <div id="figFalhasDuracaoContainer" class="plotly-chart-container">
+                    <h3>Falhas vs. Duração Média por Tipo de Processo</h3>
+                    <div id="figFalhasDuracao"></div>
                 </div>
 
-                <div id="figSalesTrendContainer" class="plotly-chart-container">
-                    <h3>Tendência de Vendas Mensais (Simulado)</h3>
-                    <div id="figSalesTrend"></div>
+                <div id="figTendenciaSucessoContainer" class="plotly-chart-container">
+                    <h3>Tendência de Sucesso Mensal (Simulado)</h3>
+                    <div id="figTendenciaSucesso"></div>
                 </div>
 
-                <h2>Dados Detalhados dos Produtos</h2>
+                <h2>Dados Detalhados dos Processos</h2>
                 <div class="table-responsive">
-                    <table id="productTable" class="table table-striped table-hover">
+                    <table id="processTable" class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>ID Produto</th>
-                                <th>Nome Produto</th>
-                                <th>Categoria</th>
-                                <th>Preço Unitário</th>
-                                <th>Estoque</th>
-                                <th>Data de Lançamento</th>
-                                <th>Vendas Mensais</th>
-                                <th>Valor Total em Estoque</th>
-                                <th>Receita Mensal Estimada</th>
+                                <th>ID Processo</th>
+                                <th>Nome Processo</th>
+                                <th>Tipo de Processo</th>
+                                <th>Status</th>
+                                <th>Duração (Horas)</th>
+                                <th>Data de Início</th>
+                                <th>Falhas</th>
+                                <th>Equipe Responsável</th>
+                                <th>Custo Estimado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -153,16 +153,20 @@
 
     <script>
         // Geração de dados fictícios
-        function generateProductData(numProducts = 100) {
-            const categories = ["Eletrônicos", "Vestuário", "Casa e Cozinha", "Esportes", "Livros"];
+        function generateProcessData(numProcesses = 150) {
+            const statuses = ["Sucesso", "Falha", "Em Andamento", "Cancelado"];
+            const processTypes = ["ETL", "Relatório", "Notificação", "Integração", "Backup"];
+            const teams = ["Alpha", "Beta", "Gama", "Delta"];
             const data = {
-                "ID Produto": [],
-                "Nome Produto": [],
-                "Categoria": [],
-                "Preço Unitário": [],
-                "Estoque": [],
-                "Data de Lançamento": [],
-                "Vendas Mensais": []
+                "ID Processo": [],
+                "Nome Processo": [],
+                "Tipo de Processo": [],
+                "Status": [],
+                "Duração (Horas)": [],
+                "Data de Início": [],
+                "Falhas": [],
+                "Equipe Responsável": [],
+                "Custo Estimado": []
             };
 
             const seed = 42;
@@ -177,282 +181,314 @@
                 }
             }
 
-            for (let i = 0; i < numProducts; i++) {
-                data["ID Produto"].push(`PROD-${String(i + 1).padStart(4, '0')}`);
-                data["Nome Produto"].push(`Produto Aleatório ${i + 1}`);
-                data["Categoria"].push(categories[Math.floor(rand() * categories.length)]);
-                data["Preço Unitário"].push(parseFloat((rand() * 490 + 10).toFixed(2))); // Preço entre 10 e 500
-                data["Estoque"].push(Math.floor(rand() * 200)); // Estoque entre 0 e 199
-                const start = new Date('2022-01-01').getTime();
-                const end = new Date('2023-12-31').getTime();
-                data["Data de Lançamento"].push(new Date(start + rand() * (end - start)));
-                data["Vendas Mensais"].push(Math.floor(rand() * 95 + 5)); // Vendas entre 5 e 99
+            for (let i = 0; i < numProcesses; i++) {
+                data["ID Processo"].push(`PROC-${String(i + 1).padStart(5, '0')}`);
+                data["Nome Processo"].push(`Processo Automatizado ${i + 1}`);
+                data["Tipo de Processo"].push(processTypes[Math.floor(rand() * processTypes.length)]);
+                data["Status"].push(statuses[Math.floor(rand() * statuses.length)]);
+                data["Duração (Horas)"].push(parseFloat((rand() * 23 + 1).toFixed(2))); // Duração entre 1 e 24 horas
+                const start = new Date('2023-01-01').getTime();
+                const end = new Date('2024-03-31').getTime();
+                data["Data de Início"].push(new Date(start + rand() * (end - start)));
+                data["Falhas"].push(Math.floor(rand() * 5)); // Falhas entre 0 e 4
+                data["Equipe Responsável"].push(teams[Math.floor(rand() * teams.length)]);
+                data["Custo Estimado"].push(parseFloat((rand() * 1000 + 50).toFixed(2))); // Custo entre 50 e 1050
             }
 
             const df = {
-                "ID Produto": data["ID Produto"],
-                "Nome Produto": data["Nome Produto"],
-                "Categoria": data["Categoria"],
-                "Preço Unitário": data["Preço Unitário"],
-                "Estoque": data["Estoque"],
-                "Data de Lançamento": data["Data de Lançamento"].map(d => d.toISOString().split('T')[0]),
-                "Vendas Mensais": data["Vendas Mensais"]
+                "ID Processo": data["ID Processo"],
+                "Nome Processo": data["Nome Processo"],
+                "Tipo de Processo": data["Tipo de Processo"],
+                "Status": data["Status"],
+                "Duração (Horas)": data["Duração (Horas)"],
+                "Data de Início": data["Data de Início"].map(d => d.toISOString().split('T')[0]),
+                "Falhas": data["Falhas"],
+                "Equipe Responsável": data["Equipe Responsável"],
+                "Custo Estimado": data["Custo Estimado"]
             };
-
-            const valorTotalEstoque = df["Preço Unitário"].map((preco, i) => parseFloat((preco * df["Estoque"][i]).toFixed(2)));
-            const receitaMensalEstimada = df["Preço Unitário"].map((preco, i) => parseFloat((preco * df["Vendas Mensais"][i]).toFixed(2)));
-
-            df["Valor Total em Estoque"] = valorTotalEstoque;
-            df["Receita Mensal Estimada"] = receitaMensalEstimada;
 
             return df;
         }
 
-        let allProducts = generateProductData();
-        let filteredProducts = JSON.parse(JSON.stringify(allProducts)); // Cópia profunda inicial
+        let allProcesses = generateProcessData();
+        let filteredProcesses = JSON.parse(JSON.stringify(allProcesses)); // Cópia profunda inicial
 
         // --- Popular Filtros ---
-        const categoriaSelect = document.getElementById('categoriaSelect');
-        const uniqueCategories = ["Todas", ...new Set(allProducts["Categoria"])].sort();
-        uniqueCategories.forEach(cat => {
+        const statusSelect = document.getElementById('statusSelect');
+        const uniqueStatuses = ["Todos", ...new Set(allProcesses["Status"])].sort();
+        uniqueStatuses.forEach(status => {
             const option = document.createElement('option');
-            option.value = cat;
-            option.textContent = cat;
-            categoriaSelect.appendChild(option);
+            option.value = status;
+            option.textContent = status;
+            statusSelect.appendChild(option);
         });
 
-        const precoSliderMin = document.getElementById('precoSliderMin');
-        const precoSliderMax = document.getElementById('precoSliderMax');
-        const precoRangeValues = document.getElementById('precoRangeValues');
-        const minPrice = Math.min(...allProducts["Preço Unitário"]);
-        const maxPrice = Math.max(...allProducts["Preço Unitário"]);
-        precoSliderMin.min = minPrice; precoSliderMin.max = maxPrice; precoSliderMin.value = minPrice;
-        precoSliderMax.min = minPrice; precoSliderMax.max = maxPrice; precoSliderMax.value = maxPrice;
-        precoRangeValues.innerHTML = `R$ ${parseFloat(minPrice).toFixed(2)} - R$ ${parseFloat(maxPrice).toFixed(2)}`;
+        const duracaoSliderMin = document.getElementById('duracaoSliderMin');
+        const duracaoSliderMax = document.getElementById('duracaoSliderMax');
+        const duracaoRangeValues = document.getElementById('duracaoRangeValues');
+        const minDuration = Math.min(...allProcesses["Duração (Horas)"]);
+        const maxDuration = Math.max(...allProcesses["Duração (Horas)"]);
+        duracaoSliderMin.min = minDuration; duracaoSliderMin.max = maxDuration; duracaoSliderMin.value = minDuration;
+        duracaoSliderMax.min = minDuration; duracaoSliderMax.max = maxDuration; duracaoSliderMax.value = maxDuration;
+        duracaoRangeValues.innerHTML = `${parseFloat(minDuration).toFixed(2)}h - ${parseFloat(maxDuration).toFixed(2)}h`;
 
-        const estoqueSliderMin = document.getElementById('estoqueSliderMin');
-        const estoqueSliderMax = document.getElementById('estoqueSliderMax');
-        const estoqueRangeValues = document.getElementById('estoqueRangeValues');
-        const minStock = Math.min(...allProducts["Estoque"]);
-        const maxStock = Math.max(...allProducts["Estoque"]);
-        estoqueSliderMin.min = minStock; estoqueSliderMin.max = maxStock; estoqueSliderMin.value = minStock;
-        estoqueSliderMax.min = minStock; estoqueSliderMax.max = maxStock; estoqueSliderMax.value = maxStock;
-        estoqueRangeValues.innerHTML = `${minStock} - ${maxStock}`;
+        const falhasSliderMin = document.getElementById('falhasSliderMin');
+        const falhasSliderMax = document.getElementById('falhasSliderMax');
+        const falhasRangeValues = document.getElementById('falhasRangeValues');
+        const minFailures = Math.min(...allProcesses["Falhas"]);
+        const maxFailures = Math.max(...allProcesses["Falhas"]);
+        falhasSliderMin.min = minFailures; falhasSliderMin.max = maxFailures; falhasSliderMin.value = minFailures;
+        falhasSliderMax.min = minFailures; falhasSliderMax.max = maxFailures; falhasSliderMax.value = maxFailures;
+        falhasRangeValues.innerHTML = `${minFailures} - ${maxFailures}`;
 
         // --- Funções de Filtragem e Atualização ---
         function updateFilters() {
-            const selectedCategoria = categoriaSelect.value;
-            const currentMinPrice = parseFloat(precoSliderMin.value);
-            const currentMaxPrice = parseFloat(precoSliderMax.value);
-            const currentMinStock = parseInt(estoqueSliderMin.value);
-            const currentMaxStock = parseInt(estoqueSliderMax.value);
+            const selectedStatus = statusSelect.value;
+            const currentMinDuration = parseFloat(duracaoSliderMin.value);
+            const currentMaxDuration = parseFloat(duracaoSliderMax.value);
+            const currentMinFailures = parseInt(falhasSliderMin.value);
+            const currentMaxFailures = parseInt(falhasSliderMax.value);
 
-            filteredProducts = allProducts["ID Produto"].map((_, i) => ({
-                "ID Produto": allProducts["ID Produto"][i],
-                "Nome Produto": allProducts["Nome Produto"][i],
-                "Categoria": allProducts["Categoria"][i],
-                "Preço Unitário": allProducts["Preço Unitário"][i],
-                "Estoque": allProducts["Estoque"][i],
-                "Data de Lançamento": allProducts["Data de Lançamento"][i],
-                "Vendas Mensais": allProducts["Vendas Mensais"][i],
-                "Valor Total em Estoque": allProducts["Valor Total em Estoque"][i],
-                "Receita Mensal Estimada": allProducts["Receita Mensal Estimada"][i]
+            filteredProcesses = allProcesses["ID Processo"].map((_, i) => ({
+                "ID Processo": allProcesses["ID Processo"][i],
+                "Nome Processo": allProcesses["Nome Processo"][i],
+                "Tipo de Processo": allProcesses["Tipo de Processo"][i],
+                "Status": allProcesses["Status"][i],
+                "Duração (Horas)": allProcesses["Duração (Horas)"][i],
+                "Data de Início": allProcesses["Data de Início"][i],
+                "Falhas": allProcesses["Falhas"][i],
+                "Equipe Responsável": allProcesses["Equipe Responsável"][i],
+                "Custo Estimado": allProcesses["Custo Estimado"][i]
             }));
 
-            if (selectedCategoria !== "Todas") {
-                filteredProducts = filteredProducts.filter(p => p.Categoria === selectedCategoria);
+            if (selectedStatus !== "Todos") {
+                filteredProcesses = filteredProcesses.filter(p => p.Status === selectedStatus);
             }
 
-            filteredProducts = filteredProducts.filter(p =>
-                p["Preço Unitário"] >= currentMinPrice && p["Preço Unitário"] <= currentMaxPrice &&
-                p["Estoque"] >= currentMinStock && p["Estoque"] <= currentMaxStock
+            filteredProcesses = filteredProcesses.filter(p =>
+                p["Duração (Horas)"] >= currentMinDuration && p["Duração (Horas)"] <= currentMaxDuration &&
+                p["Falhas"] >= currentMinFailures && p["Falhas"] <= currentMaxFailures
             );
 
-            renderDashboard(filteredProducts);
+            renderDashboard(filteredProcesses);
         }
 
         // --- Funções de Renderização ---
-        function renderDashboard(products) {
+        function renderDashboard(processes) {
             // Métricas Principais
-            const totalRevenueMonthly = products.reduce((sum, p) => sum + p["Receita Mensal Estimada"], 0);
-            const totalStockValue = products.reduce((sum, p) => sum + p["Valor Total em Estoque"], 0);
-            const averagePrice = products.length > 0 ? products.reduce((sum, p) => sum + p["Preço Unitário"], 0) / products.length : 0;
-            const totalItemsInStock = products.reduce((sum, p) => sum + p["Estoque"], 0);
+            const totalExecutions = processes.length;
+            const successfulProcesses = processes.filter(p => p.Status === "Sucesso");
+            const successRate = totalExecutions > 0 ? (successfulProcesses.length / totalExecutions) * 100 : 0;
+            const averageDuration = processes.length > 0 ? processes.reduce((sum, p) => sum + p["Duração (Horas)"], 0) / processes.length : 0;
+            const totalFailures = processes.reduce((sum, p) => sum + p.Falhas, 0);
 
-            document.getElementById('metricReceitaValor').textContent = `R$ ${totalRevenueMonthly.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('metricEstoqueValor').textContent = `R$ ${totalStockValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('metricPrecoMedioValor').textContent = `R$ ${averagePrice.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('metricTotalItensValor').textContent = totalItemsInStock.toLocaleString('pt-BR');
+            document.getElementById('metricExecucoesValor').textContent = totalExecutions.toLocaleString('pt-BR');
+            document.getElementById('metricSucessoValor').textContent = successRate.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('metricDuracaoMediaValor').textContent = averageDuration.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('metricTotalFalhasValor').textContent = totalFailures.toLocaleString('pt-BR');
 
             // Visualizações (Plotly.js)
 
-            // Distribuição de Preços por Categoria
-            const priceDistData = [{
+            // Distribuição de Status por Tipo de Processo
+            const statusDistData = [{
                 type: 'box',
-                y: products.map(p => p["Preço Unitário"]),
-                x: products.map(p => p.Categoria),
-                color: products.map(p => p.Categoria),
+                y: processes.map(p => p["Duração (Horas)"]),
+                x: processes.map(p => p["Tipo de Processo"]),
+                color: processes.map(p => p.Status),
                 boxpoints: 'outliers',
                 jitter: 0.3,
                 pointpos: -1.8,
                 marker: { color: '#007bff' },
                 line: { width: 1 },
-                showlegend: false
+                showlegend: true
             }];
-            const priceDistLayout = {
-                yaxis: { title: 'Preço Unitário' },
-                xaxis: { title: 'Categoria' },
+            const statusDistLayout = {
+                yaxis: { title: 'Duração (Horas)' },
+                xaxis: { title: 'Tipo de Processo' },
                 margin: { t: 50, b: 50, l: 50, r: 20 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Distribuição de Preços por Categoria' }
+                title: { text: 'Distribuição de Duração por Tipo de Processo e Status' }
             };
-            Plotly.newPlot('figPriceDist', priceDistData, priceDistLayout, {responsive: true});
+            Plotly.newPlot('figStatusDist', statusDistData, statusDistLayout, {responsive: true});
 
-            // Receita Mensal Estimada por Categoria
-            const revenueByCategory = products.reduce((acc, p) => {
-                if (!acc[p.Categoria]) {
-                    acc[p.Categoria] = 0;
+            // Execuções Mensais por Tipo de Processo
+            const executionsByMonthType = processes.reduce((acc, p) => {
+                const date = new Date(p["Data de Início"]);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1; // 0-indexed month
+                const yearMonth = `${year}-${String(month).padStart(2, '0')}`;
+                const processType = p["Tipo de Processo"];
+
+                if (!acc[yearMonth]) {
+                    acc[yearMonth] = {};
                 }
-                acc[p.Categoria] += p["Receita Mensal Estimada"];
+                if (!acc[yearMonth][processType]) {
+                    acc[yearMonth][processType] = 0;
+                }
+                acc[yearMonth][processType]++;
                 return acc;
             }, {});
-            const revenueCatData = Object.entries(revenueByCategory).map(([cat, revenue]) => ({
-                Categoria: cat,
-                "Receita Mensal Estimada": revenue
-            })).sort((a, b) => b["Receita Mensal Estimada"] - a["Receita Mensal Estimada"]);
 
-            const revenueCatTrace = [{
-                x: revenueCatData.map(d => d.Categoria),
-                y: revenueCatData.map(d => d["Receita Mensal Estimada"]),
+            const sortedMonths = Object.keys(executionsByMonthType).sort();
+            const traces = [];
+            const processTypesInvolved = [...new Set(processes.map(p => p["Tipo de Processo"]))];
+
+            processTypesInvolved.forEach(type => {
+                const traceData = sortedMonths.map(month => ({
+                    x: new Date(`${month}-01`),
+                    y: executionsByMonthType[month] && executionsByMonthType[month][type] ? executionsByMonthType[month][type] : 0
+                }));
+                traces.push({
+                    x: traceData.map(d => d.x),
+                    y: traceData.map(d => d.y),
+                    mode: 'lines+markers',
+                    type: 'scatter',
+                    name: type
+                });
+            });
+
+            const executionsCatLayout = {
+                yaxis: { title: 'Número de Execuções' },
+                xaxis: { title: 'Data' },
+                margin: { t: 50, b: 50, l: 50, r: 20 },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                title: { text: 'Execuções Mensais por Tipo de Processo' }
+            };
+            Plotly.newPlot('figExecucoesCat', traces, executionsCatLayout, {responsive: true});
+
+            // Falhas vs. Duração Média por Tipo de Processo
+            const failureDurationData = processes.reduce((acc, p) => {
+                const type = p["Tipo de Processo"];
+                if (!acc[type]) {
+                    acc[type] = { totalFailures: 0, totalDuration: 0, count: 0 };
+                }
+                acc[type].totalFailures += p.Falhas;
+                acc[type].totalDuration += p["Duração (Horas)"];
+                acc[type].count++;
+                return acc;
+            }, {});
+
+            const failureDurationAggregated = Object.entries(failureDurationData).map(([type, data]) => ({
+                "Tipo de Processo": type,
+                "Total de Falhas": data.totalFailures,
+                "Duração Média": data.totalDuration / data.count
+            }));
+
+            const failureDurationTrace = [{
+                x: failureDurationAggregated.map(d => d["Tipo de Processo"]),
+                y: failureDurationAggregated.map(d => d["Duração Média"]),
                 type: 'bar',
-                marker: { color: '#007bff' },
-                showlegend: false
-            }];
-            const revenueCatLayout = {
-                yaxis: { title: 'Receita Mensal Estimada' },
-                xaxis: { title: 'Categoria' },
-                margin: { t: 50, b: 50, l: 50, r: 20 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Receita Mensal Estimada por Categoria' }
-            };
-            Plotly.newPlot('figRevenueCat', revenueCatTrace, revenueCatLayout, {responsive: true});
-
-            // Estoque Atual vs. Vendas Mensais
-            const stockSalesTrace = [{
-                x: products.map(p => p.Estoque),
-                y: products.map(p => p["Vendas Mensais"]),
-                mode: 'markers',
+                name: 'Duração Média (Horas)',
+                marker: { color: '#1f77b4' }
+            }, {
+                x: failureDurationAggregated.map(d => d["Tipo de Processo"]),
+                y: failureDurationAggregated.map(d => d["Total de Falhas"]),
                 type: 'scatter',
-                text: products.map(p => p["Nome Produto"]),
-                marker: {
-                    color: products.map(p => {
-                        const categoryColor = {
-                            "Eletrônicos": '#1f77b4', "Vestuário": '#ff7f0e', "Casa e Cozinha": '#2ca02c',
-                            "Esportes": '#d62728', "Livros": '#9467bd'
-                        };
-                        return categoryColor[p.Categoria] || '#7f7f7f';
-                    }),
-                    size: 8,
-                    opacity: 0.7
-                },
-                hoverinfo: 'text+x+y',
-                showlegend: false
+                mode: 'markers',
+                name: 'Total de Falhas',
+                marker: { color: '#d62728', size: 10 },
+                yaxis: 'y2'
             }];
-            const stockSalesLayout = {
-                xaxis: { title: 'Estoque' },
-                yaxis: { title: 'Vendas Mensais' },
-                margin: { t: 50, b: 50, l: 50, r: 20 },
+            const failureDurationLayout = {
+                yaxis: { title: 'Duração Média (Horas)', color: '#1f77b4' },
+                yaxis2: { title: 'Total de Falhas', overlaying: 'y', side: 'right', color: '#d62728' },
+                xaxis: { title: 'Tipo de Processo' },
+                margin: { t: 50, b: 50, l: 50, r: 50 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Estoque Atual vs. Vendas Mensais por Categoria' }
+                title: { text: 'Falhas e Duração Média por Tipo de Processo' },
+                legend: { x: 0.1, y: 1.1, orientation: "h" }
             };
-            Plotly.newPlot('figStockSales', stockSalesTrace, stockSalesLayout, {responsive: true});
+            Plotly.newPlot('figFalhasDuracao', failureDurationTrace, failureDurationLayout, {responsive: true});
 
-            // Gráfico de Linha: Vendas Mensais ao Longo do Tempo (simulado)
-            const salesTrendData = products.reduce((acc, p) => {
-                const date = new Date(p["Data de Lançamento"]);
+            // Gráfico de Linha: Tendência de Sucesso Mensal (simulado)
+            const successTrendData = processes.reduce((acc, p) => {
+                const date = new Date(p["Data de Início"]);
                 const year = date.getFullYear();
                 const month = date.getMonth() + 1; // 0-indexed month
                 const yearMonth = `${year}-${String(month).padStart(2, '0')}`;
                 if (!acc[yearMonth]) {
-                    acc[yearMonth] = 0;
+                    acc[yearMonth] = { total: 0, success: 0 };
                 }
-                acc[yearMonth] += p["Vendas Mensais"];
+                acc[yearMonth].total++;
+                if (p.Status === "Sucesso") {
+                    acc[yearMonth].success++;
+                }
                 return acc;
             }, {});
 
-            const sortedSalesTrend = Object.entries(salesTrendData)
-                .map(([ym, sales]) => ({ AnoMes: new Date(`${ym}-01`), "Vendas Mensais": sales }))
+            const sortedSuccessTrend = Object.entries(successTrendData)
+                .map(([ym, data]) => ({ AnoMes: new Date(`${ym}-01`), taxaSucesso: data.total > 0 ? (data.success / data.total) * 100 : 0 }))
                 .sort((a, b) => a.AnoMes - b.AnoMes);
 
-            const salesTrendTrace = [{
-                x: sortedSalesTrend.map(d => d.AnoMes),
-                y: sortedSalesTrend.map(d => d["Vendas Mensais"]),
+            const successTrendTrace = [{
+                x: sortedSuccessTrend.map(d => d.AnoMes),
+                y: sortedSuccessTrend.map(d => d.taxaSucesso),
                 mode: 'lines+markers',
                 type: 'scatter',
-                marker: { color: '#007bff' },
-                line: { color: '#007bff' },
+                marker: { color: '#2ca02c' },
+                line: { color: '#2ca02c' },
                 showlegend: false
             }];
-            const salesTrendLayout = {
+            const successTrendLayout = {
                 xaxis: { title: 'Data' },
-                yaxis: { title: 'Vendas Mensais' },
+                yaxis: { title: 'Taxa de Sucesso (%)' },
                 margin: { t: 50, b: 50, l: 50, r: 20 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Tendência de Vendas Mensais ao Longo do Tempo (Simulado)' }
+                title: { text: 'Tendência de Taxa de Sucesso Mensal (Simulado)' }
             };
-            Plotly.newPlot('figSalesTrend', salesTrendTrace, salesTrendLayout, {responsive: true});
+            Plotly.newPlot('figTendenciaSucesso', successTrendTrace, successTrendLayout, {responsive: true});
 
             // Tabela de Dados
-            const tableBody = document.getElementById('productTable').querySelector('tbody');
+            const tableBody = document.getElementById('processTable').querySelector('tbody');
             tableBody.innerHTML = ''; // Limpa o corpo da tabela
-            products.forEach(p => {
+            processes.forEach(p => {
                 const row = tableBody.insertRow();
                 row.innerHTML = `
-                    <td>${p["ID Produto"]}</td>
-                    <td>${p["Nome Produto"]}</td>
-                    <td>${p.Categoria}</td>
-                    <td>R$ ${p["Preço Unitário"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>${p.Estoque.toLocaleString('pt-BR')}</td>
-                    <td>${p["Data de Lançamento"]}</td>
-                    <td>${p["Vendas Mensais"].toLocaleString('pt-BR')}</td>
-                    <td>R$ ${p["Valor Total em Estoque"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>R$ ${p["Receita Mensal Estimada"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>${p["ID Processo"]}</td>
+                    <td>${p["Nome Processo"]}</td>
+                    <td>${p["Tipo de Processo"]}</td>
+                    <td>${p.Status}</td>
+                    <td>${p["Duração (Horas)"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>${p["Data de Início"]}</td>
+                    <td>${p.Falhas.toLocaleString('pt-BR')}</td>
+                    <td>${p["Equipe Responsável"]}</td>
+                    <td>R$ ${p["Custo Estimado"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                 `;
             });
         }
 
         // --- Event Listeners para Filtros ---
-        categoriaSelect.addEventListener('change', updateFilters);
-        precoSliderMin.addEventListener('input', () => {
-            if (parseFloat(precoSliderMin.value) > parseFloat(precoSliderMax.value)) {
-                precoSliderMin.value = precoSliderMax.value;
+        statusSelect.addEventListener('change', updateFilters);
+        duracaoSliderMin.addEventListener('input', () => {
+            if (parseFloat(duracaoSliderMin.value) > parseFloat(duracaoSliderMax.value)) {
+                duracaoSliderMin.value = duracaoSliderMax.value;
             }
-            precoRangeValues.innerHTML = `R$ ${parseFloat(precoSliderMin.value).toFixed(2)} - R$ ${parseFloat(precoSliderMax.value).toFixed(2)}`;
+            duracaoRangeValues.innerHTML = `${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`;
             updateFilters();
         });
-        precoSliderMax.addEventListener('input', () => {
-            if (parseFloat(precoSliderMax.value) < parseFloat(precoSliderMin.value)) {
-                precoSliderMax.value = precoSliderMin.value;
+        duracaoSliderMax.addEventListener('input', () => {
+            if (parseFloat(duracaoSliderMax.value) < parseFloat(duracaoSliderMin.value)) {
+                duracaoSliderMax.value = duracaoSliderMin.value;
             }
-            precoRangeValues.innerHTML = `R$ ${parseFloat(precoSliderMin.value).toFixed(2)} - R$ ${parseFloat(precoSliderMax.value).toFixed(2)}`;
+            duracaoRangeValues.innerHTML = `${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`;
             updateFilters();
         });
-        estoqueSliderMin.addEventListener('input', () => {
-            if (parseInt(estoqueSliderMin.value) > parseInt(estoqueSliderMax.value)) {
-                estoqueSliderMin.value = estoqueSliderMax.value;
+        falhasSliderMin.addEventListener('input', () => {
+            if (parseInt(falhasSliderMin.value) > parseInt(falhasSliderMax.value)) {
+                falhasSliderMin.value = falhasSliderMax.value;
             }
-            estoqueRangeValues.innerHTML = `${parseInt(estoqueSliderMin.value)} - ${parseInt(estoqueSliderMax.value)}`;
+            falhasRangeValues.innerHTML = `${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`;
             updateFilters();
         });
-        estoqueSliderMax.addEventListener('input', () => {
-            if (parseInt(estoqueSliderMax.value) < parseInt(estoqueSliderMin.value)) {
-                estoqueSliderMax.value = estoqueSliderMin.value;
+        falhasSliderMax.addEventListener('input', () => {
+            if (parseInt(falhasSliderMax.value) < parseInt(falhasSliderMin.value)) {
+                falhasSliderMax.value = falhasSliderMin.value;
             }
-            estoqueRangeValues.innerHTML = `${parseInt(estoqueSliderMin.value)} - ${parseInt(estoqueSliderMax.value)}`;
+            falhasRangeValues.innerHTML = `${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`;
             updateFilters();
         });
 
