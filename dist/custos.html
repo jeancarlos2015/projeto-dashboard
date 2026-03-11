@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="pt-br"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custos</title>
+    <style>body {
+  color: #333;
+  background-color: #f4f7f6;
+  margin: 20px;
+  font-family: sans-serif;
+}
+
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: #fff;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px #0000001a;
+}
+
+th, td {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 15px;
+}
+
+th {
+  color: #fff;
+  background-color: #3498db;
+  font-weight: bold;
+}
+
+tr:nth-child(2n) {
+  background-color: #ecf0f1;
+}
+
+tr:hover {
+  background-color: #bdc3c7;
+}
+
+.total {
+  color: #333;
+  background-color: #f1c40f;
+  font-weight: bold;
+}
+
+.back-button {
+  color: #fff;
+  text-align: center;
+  background-color: #3498db;
+  border-radius: 5px;
+  width: 150px;
+  margin: 20px auto;
+  padding: 10px 15px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color .3s;
+  display: block;
+}
+
+.back-button:hover {
+  background-color: #2980b9;
+}
+</style>
+</head>
+<body>
+
+    <h1>Relatório de Custos Fictícios</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário (R$)</th>
+                <th>Custo Total (R$)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Materiais</td>
+                <td>Aço Inoxidável</td>
+                <td>150 kg</td>
+                <td>25.50</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Materiais</td>
+                <td>Componentes Eletrônicos</td>
+                <td>300 unidades</td>
+                <td>10.75</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Mão de Obra</td>
+                <td>Operário Qualificado</td>
+                <td>80 horas</td>
+                <td>35.00</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Mão de Obra</td>
+                <td>Engenheiro de Produção</td>
+                <td>20 horas</td>
+                <td>70.00</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Despesas Gerais</td>
+                <td>Energia Elétrica</td>
+                <td>1</td>
+                <td>500.00</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Despesas Gerais</td>
+                <td>Manutenção de Equipamentos</td>
+                <td>1</td>
+                <td>1200.00</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Logística</td>
+                <td>Transporte de Matéria Prima</td>
+                <td>1</td>
+                <td>300.00</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr>
+                <td>Logística</td>
+                <td>Frete de Entrega</td>
+                <td>1</td>
+                <td>450.00</td>
+                <td class="custo-item"></td>
+            </tr>
+            <tr class="total">
+                <td colspan="4">CUSTO TOTAL GERAL</td>
+                <td id="custo-total-geral"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/dashboard.html" class="back-button">Voltar para Dashboard</a>
+
+    <script>document.addEventListener('DOMContentLoaded', function() {
+    const tabela = document.querySelector('table tbody');
+    const linhas = tabela.querySelectorAll('tr');
+    let custoTotalGeral = 0;
+    linhas.forEach((linha)=>{
+        const colunas = linha.querySelectorAll('td');
+        if (colunas.length === 5 && !linha.classList.contains('total')) {
+            const quantidadeStr = colunas[2].textContent.replace(' kg', '').replace(' unidades', '').replace(' horas', '').trim();
+            const quantidade = parseFloat(quantidadeStr);
+            const precoUnitario = parseFloat(colunas[3].textContent);
+            if (!isNaN(quantidade) && !isNaN(precoUnitario)) {
+                const custoItem = quantidade * precoUnitario;
+                colunas[4].textContent = custoItem.toFixed(2).replace('.', ',');
+                colunas[4].classList.add('custo-item');
+                custoTotalGeral += custoItem;
+            } else {
+                console.error("N\xe3o foi poss\xedvel calcular o custo para a linha:", linha.textContent);
+                colunas[4].textContent = "Erro";
+            }
+        }
+    });
+    const celulaCustoTotalGeral = document.getElementById('custo-total-geral');
+    celulaCustoTotalGeral.textContent = custoTotalGeral.toFixed(2).replace('.', ',');
+});
+
+</script>
+
+
+<script src="/custos.02aebf25.js"></script></body></html>
