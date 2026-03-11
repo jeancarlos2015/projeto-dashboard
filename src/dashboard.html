@@ -59,7 +59,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 160px; /* Altura fixa para todos os cards */
+            height: 160px;
             transition: transform .2s ease-in-out;
         }
         .metric-card:hover {
@@ -111,7 +111,6 @@
         .form-range {
             cursor: pointer;
         }
-        /* Cores para os cards de métrica */
         .metric-card-color-1 { background: linear-gradient(135deg, #007bff, #00c6ff); color: white; }
         .metric-card-color-2 { background: linear-gradient(135deg, #28a745, #50c878); color: white; }
         .metric-card-color-3 { background: linear-gradient(135deg, #ffc107, #ffd700); color: #343a40; }
@@ -217,7 +216,6 @@
     </div>
 
     <script>
-        // Geração de dados fictícios para vendas de roupas
         function generateSalesData(numSales = 200) {
             const statuses = ["Concluída", "Pendente", "Cancelada", "Devolvida"];
             const products = ["Camiseta Básica", "Calça Jeans", "Vestido Floral", "Jaqueta de Couro", "Saia Midi", "Blusa de Seda", "Shorts Esportivo", "Moletom Canguru"];
@@ -233,7 +231,7 @@
                 "Status": []
             };
 
-            const seed = 123; // Semente fixa para reprodutibilidade
+            const seed = 123;
             const rand = mulberry32(seed);
 
             function mulberry32(a) {
@@ -258,15 +256,15 @@
 
             for (let i = 0; i < numSales; i++) {
                 const saleId = `VEN-${String(i + 1).padStart(6, '0')}`;
-                const saleDate = new Date(2023, 0, 1); // Começa em 01/01/2023
-                const daysToAdd = Math.floor(rand() * 365); // Adiciona até 365 dias
+                const saleDate = new Date(2023, 0, 1);
+                const daysToAdd = Math.floor(rand() * 365);
                 saleDate.setDate(saleDate.getDate() + daysToAdd);
 
                 const selectedProduct = products[Math.floor(rand() * products.length)];
                 const minPrice = priceRanges[selectedProduct][0];
                 const maxPrice = priceRanges[selectedProduct][1];
                 const unitPrice = parseFloat((minPrice + rand() * (maxPrice - minPrice)).toFixed(2));
-                const quantity = Math.floor(rand() * 5) + 1; // Quantidade entre 1 e 5
+                const quantity = Math.floor(rand() * 5) + 1;
                 const totalPrice = parseFloat((unitPrice * quantity).toFixed(2));
                 const selectedStatus = statuses[Math.floor(rand() * statuses.length)];
 
@@ -280,16 +278,14 @@
                 data["Status"].push(selectedStatus);
             }
 
-            // Formata as datas para exibição
             data["Data"] = data["Data"].map(d => d.toISOString().split('T')[0]);
 
             return data;
         }
 
         let allSales = generateSalesData();
-        let filteredSales = JSON.parse(JSON.stringify(allSales)); // Cópia profunda inicial
+        let filteredSales = JSON.parse(JSON.stringify(allSales));
 
-        // --- Popular Filtros ---
         const statusSelect = document.getElementById('statusSelect');
         const uniqueStatuses = ["Todos", ...new Set(allSales["Status"])].sort();
         uniqueStatuses.forEach(status => {
@@ -322,7 +318,6 @@
         quantidadeSliderMinLabel.textContent = `${minQuantity}`;
         quantidadeSliderMaxLabel.textContent = `${maxQuantity}`;
 
-        // --- Funções de Filtragem e Atualização ---
         function updateFilters() {
             const selectedStatus = statusSelect.value;
             const currentMinTotalValue = parseFloat(valorSliderMin.value);
@@ -353,9 +348,7 @@
             renderDashboard(filteredSales);
         }
 
-        // --- Funções de Renderização ---
         function renderDashboard(sales) {
-            // Métricas Principais
             const totalSales = sales.length;
             const totalRevenue = sales.reduce((sum, s) => sum + s["Valor Total"], 0);
             const averageSaleValue = totalSales > 0 ? totalRevenue / totalSales : 0;
@@ -366,7 +359,6 @@
             document.getElementById('metricMediaValorValor').textContent = `R$ ${averageSaleValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             document.getElementById('metricItensVendidosValor').textContent = totalItemsSold.toLocaleString('pt-BR');
 
-            // Aplicar cores aos cards de métrica
             const metricCards = [
                 { id: 'metricCardTotalVendas', colorClass: 'metric-card-color-1', titleId: 'metricTotalVendasTitulo', valueId: 'metricTotalVendasValor' },
                 { id: 'metricCardValorTotal', colorClass: 'metric-card-color-2', titleId: 'metricValorTotalTitulo', valueId: 'metricValorTotalValor' },
@@ -376,14 +368,10 @@
 
             metricCards.forEach(cardInfo => {
                 const cardElement = document.getElementById(cardInfo.id);
-                cardElement.classList.remove('metric-card-color-1', 'metric-card-color-2', 'metric-card-color-3', 'metric-card-color-4'); // Remove classes de cor existentes
+                cardElement.classList.remove('metric-card-color-1', 'metric-card-color-2', 'metric-card-color-3', 'metric-card-color-4');
                 cardElement.classList.add(cardInfo.colorClass);
             });
 
-
-            // Visualizações (Plotly.js)
-
-            // Vendas por Status da Venda (Gráfico de Pizza)
             const statusCounts = sales.reduce((acc, s) => {
                 acc[s.Status] = (acc[s.Status] || 0) + 1;
                 return acc;
@@ -407,9 +395,8 @@
             };
             Plotly.newPlot('figVendasPorStatus', salesStatusData, salesStatusLayout, {responsive: true});
 
-            // Evolução das Vendas por Mês (Gráfico de Linha)
             const salesByMonth = sales.reduce((acc, s) => {
-                const month = s.Data.substring(0, 7); // Formato YYYY-MM
+                const month = s.Data.substring(0, 7);
                 if (!acc[month]) {
                     acc[month] = { count: 0, totalValue: 0 };
                 }
@@ -440,7 +427,6 @@
             };
             Plotly.newPlot('figVendasPorMes', salesByMonthData, salesByMonthLayout, {responsive: true});
 
-            // Top 5 Produtos Vendidos (Gráfico de Barra)
             const productCounts = sales.reduce((acc, s) => {
                 acc[s.Produto] = (acc[s.Produto] || 0) + 1;
                 return acc;
@@ -457,7 +443,7 @@
                 x: productLabels,
                 y: productValues,
                 type: 'bar',
-                marker: { color: '#663399' } // Cor púrpura
+                marker: { color: '#663399' }
             }];
             const topProductsLayout = {
                 xaxis: { title: 'Produto' },
@@ -469,9 +455,8 @@
             };
             Plotly.newPlot('figTopProdutos', topProductsData, topProductsLayout, {responsive: true});
 
-            // Tabela de Dados de Vendas
             const tableBody = document.getElementById('vendasTable').querySelector('tbody');
-            tableBody.innerHTML = ''; // Limpa o corpo da tabela
+            tableBody.innerHTML = '';
             sales.forEach(s => {
                 const row = tableBody.insertRow();
                 row.innerHTML = `
@@ -487,7 +472,6 @@
             });
         }
 
-        // --- Event Listeners para Filtros ---
         statusSelect.addEventListener('change', updateFilters);
 
         valorSliderMin.addEventListener('input', () => {
@@ -520,9 +504,8 @@
             updateFilters();
         });
 
-        // --- Inicialização ---
         document.addEventListener('DOMContentLoaded', () => {
-            updateFilters(); // Renderiza com os filtros padrão
+            updateFilters();
         });
     </script>
 </body>
