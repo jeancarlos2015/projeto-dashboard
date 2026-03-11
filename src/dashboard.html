@@ -25,7 +25,7 @@
         }
 
         .container {
-            width: 80%;
+            width: 90%;
             margin: 0 auto;
             max-width: 1200px;
         }
@@ -41,6 +41,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap; /* Permite quebra de linha em telas menores */
         }
 
         header h1 {
@@ -53,10 +54,12 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-wrap: wrap; /* Permite quebra de linha em telas menores */
         }
 
         nav ul li {
             margin-left: 20px;
+            margin-bottom: 5px; /* Espaçamento inferior para quebra de linha */
         }
 
         nav ul li a {
@@ -126,6 +129,7 @@
         #recent-sales ul li {
             padding: 0.8rem 0;
             border-bottom: 1px dashed var(--border-color);
+            font-size: 0.95rem;
         }
 
         #recent-sales ul li:last-child {
@@ -164,6 +168,13 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
             transition: height 0.5s ease-in-out;
+            position: relative; /* Para posicionar o texto */
+        }
+
+        .bar span {
+            position: absolute;
+            bottom: -25px; /* Posição do texto abaixo da barra */
+            width: 100%;
         }
 
         footer {
@@ -178,6 +189,29 @@
             margin: 0;
             font-size: 0.9rem;
         }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            header h1 {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr; /* Uma coluna em telas menores */
+            }
+        }
     </style>
 </head>
 <body>
@@ -186,9 +220,9 @@
             <h1>Dashboard de Vendas de Roupas</h1>
             <nav>
                 <ul>
-                    <li><a href="produtos.html">Produtos</a></li>
-                    <li><a href="clientes.html">Clientes</a></li>
-                    <li><a href="equipes.html">Equipes</a></li>
+                    <li><a href="src/produtos.html">Produtos</a></li>
+                    <li><a href="src/clientes.html">Clientes</a></li>
+                    <li><a href="src/equipes.html">Equipes</a></li>
                 </ul>
             </nav>
         </div>
@@ -225,10 +259,10 @@
             <div class="chart-placeholder">
                 <p>Gráfico de barras (simulado)</p>
                 <div class="bar-chart">
-                    <div class="bar" style="height: 70%;">Camisa Polo</div>
-                    <div class="bar" style="height: 50%;">Calça Jeans</div>
-                    <div class="bar" style="height: 30%;">Vestido Floral</div>
-                    <div class="bar" style="height: 20%;">Saia Midi</div>
+                    <div class="bar" style="height: 70%;"><span>Camisa Polo</span></div>
+                    <div class="bar" style="height: 50%;"><span>Calça Jeans</span></div>
+                    <div class="bar" style="height: 30%;"><span>Vestido Floral</span></div>
+                    <div class="bar" style="height: 20%;"><span>Saia Midi</span></div>
                 </div>
             </div>
         </section>
@@ -249,6 +283,8 @@
                 { id: 3, product: 'Vestido Floral', customer: 'Carla Souza', amount: 300.00, date: '2023-10-25' },
                 { id: 4, product: 'Camisa Polo', customer: 'Daniel Pereira', amount: 150.00, date: '2023-10-24' },
                 { id: 5, product: 'Saia Midi', customer: 'Eduarda Lima', amount: 180.00, date: '2023-10-24' },
+                { id: 6, product: 'Camisa Polo', customer: 'Fernanda Rocha', amount: 160.00, date: '2023-10-23' },
+                { id: 7, product: 'Calça Jeans', customer: 'Gabriel Almeida', amount: 230.00, date: '2023-10-23' },
             ];
 
             const totalSalesElement = document.getElementById('totalSales');
@@ -271,7 +307,7 @@
                 newCustomersElement.textContent = uniqueCustomers.size;
                 piecesSoldElement.textContent = piecesSold;
 
-                displayRecentSales(salesData.slice(-3)); // Exibe as últimas 3 vendas
+                displayRecentSales(salesData.slice(-5)); // Exibe as últimas 5 vendas
             }
 
             function displayRecentSales(sales) {
@@ -287,7 +323,41 @@
                 });
             }
 
+            // Atualiza o gráfico de barras com dados simulados
+            function updateBarChart(products) {
+                const barChartElement = document.querySelector('.bar-chart');
+                barChartElement.innerHTML = ''; // Limpa o gráfico existente
+
+                const productCounts = {};
+                products.forEach(sale => {
+                    productCounts[sale.product] = (productCounts[sale.product] || 0) + 1;
+                });
+
+                const sortedProducts = Object.entries(productCounts).sort(([, countA], [, countB]) => countB - countA);
+
+                sortedProducts.forEach(([product, count]) => {
+                    const barDiv = document.createElement('div');
+                    barDiv.classList.add('bar');
+                    // Simula altura baseada na contagem, ajustando para um máximo visual
+                    const maxHeight = 150; // Altura máxima em pixels
+                    const maxCount = Math.max(...Object.values(productCounts));
+                    const barHeight = maxCount > 0 ? (count / maxCount) * maxHeight : 0;
+                    barDiv.style.height = `${barHeight}px`;
+
+                    const spanElement = document.createElement('span');
+                    spanElement.textContent = product;
+                    barDiv.appendChild(spanElement);
+
+                    barChartElement.appendChild(barDiv);
+                });
+
+                if (sortedProducts.length === 0) {
+                    barChartElement.innerHTML = '<p>Sem dados de produtos para exibir.</p>';
+                }
+            }
+
             updateDashboard();
+            updateBarChart(salesData); // Chama a função para atualizar o gráfico com dados simulados
         });
     </script>
 </body>
