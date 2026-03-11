@@ -1,171 +1,81 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Processos Automatizados</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>body {
-  color: #343a40;
-  background-color: #f8f9fa;
-}
-
-.sidebar {
-  background-color: #e9ecef;
-  border-radius: 5px;
-  padding: 20px;
-}
-
-.main-content {
-  padding: 20px;
-}
-
-h1 {
-  color: #0056b3;
-}
-
-h2, h3 {
-  color: #007bff;
-}
-
-.plotly-chart-container {
-  background-color: #fff;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  padding: 15px;
-  box-shadow: 0 2px 4px #0000001a;
-}
-
-.metric-card {
-  text-align: center;
-  background-color: #fff;
-  border-radius: 5px;
-  flex-direction: column;
-  justify-content: center;
-  height: 150px;
-  margin-bottom: 20px;
-  padding: 15px;
-  display: flex;
-  box-shadow: 0 2px 4px #0000001a;
-}
-
-.metric-card h4 {
-  color: #6c757d;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-}
-
-.metric-card p {
-  color: #007bff;
-  margin-bottom: 0;
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
-.nav-link {
-  color: #007bff;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.nav-link:hover {
-  color: #0056b3;
-}
-
-.metric-card-random-1 {
-  background-color: #e0f7fa;
-}
-
-.metric-card-random-2 {
-  background-color: #fff9c4;
-}
-
-.metric-card-random-3 {
-  background-color: #fce4ec;
-}
-
-.metric-card-random-4 {
-  background-color: #e8f5e9;
-}
-</style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
+<!DOCTYPE html><html lang=pt-BR><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Dashboard de Processos Automatizados</title><link href=https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css rel=stylesheet><script src=https://cdn.plot.ly/plotly-latest.min.js></script><style>body{color:#343a40;background-color:#f8f9fa}.sidebar{background-color:#e9ecef;border-radius:5px;padding:20px}.main-content{padding:20px}h1{color:#0056b3}h2,h3{color:#007bff}.plotly-chart-container{background-color:#fff;border-radius:5px;margin-bottom:20px;padding:15px;box-shadow:0 2px 4px #0000001a}.metric-card{text-align:center;background-color:#fff;border-radius:5px;flex-direction:column;justify-content:center;height:150px;margin-bottom:20px;padding:15px;display:flex;box-shadow:0 2px 4px #0000001a}.metric-card h4{color:#6c757d;margin-bottom:10px;font-size:1.1rem}.metric-card p{color:#007bff;margin-bottom:0;font-size:1.8rem;font-weight:700}.nav-link{color:#007bff;font-weight:700;text-decoration:none}.nav-link:hover{color:#0056b3}.metric-card-random-1{background-color:#e0f7fa}.metric-card-random-2{background-color:#fff9c4}.metric-card-random-3{background-color:#fce4ec}.metric-card-random-4{background-color:#e8f5e9}</style><body>
+    <div class=container-fluid>
+        <div class=row>
             <div class="col-md-3 sidebar">
                 <h2>Menu</h2>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard de Processos Automatizados</a>
+                <ul class="flex-column nav">
+                    <li class=nav-item>
+                        <a class=nav-link href=#>Dashboard de Processos Automatizados</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/equipes.html">Equipes</a>
+                    <li class=nav-item>
+                        <a class=nav-link href=/equipes.html>Equipes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/clientes.html">Clientes</a>
+                    <li class=nav-item>
+                        <a class=nav-link href=/clientes.html>Clientes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/custos.html">Custos</a>
+                    <li class=nav-item>
+                        <a class=nav-link href=/custos.html>Custos</a>
                     </li>
                 </ul>
                 <hr>
                 <h2>Filtros</h2>
-                <div class="mb-3">
-                    <label for="statusSelect" class="form-label">Filtrar por Status:</label>
-                    <select id="statusSelect" class="form-select">
-                        <option value="Todos">Todos</option>
+                <div class=mb-3>
+                    <label for=statusSelect class=form-label>Filtrar por Status:</label>
+                    <select id=statusSelect class=form-select>
+                        <option value=Todos>Todos</option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="duracaoSlider" class="form-label">Filtrar por Duração (Horas):</label>
-                    <input type="range" class="form-range" id="duracaoSliderMin" value="0"> - <input type="range" class="form-range" id="duracaoSliderMax" value="0">
-                    <div id="duracaoRangeValues"></div>
+                <div class=mb-3>
+                    <label for=duracaoSlider class=form-label>Filtrar por Duração (Horas):</label>
+                    <input type=range class=form-range id=duracaoSliderMin value=0> - <input type=range class=form-range id=duracaoSliderMax value=0>
+                    <div id=duracaoRangeValues></div>
                 </div>
-                <div class="mb-3">
-                    <label for="falhasSlider" class="form-label">Filtrar por Falhas:</label>
-                    <input type="range" class="form-range" id="falhasSliderMin" value="0"> - <input type="range" class="form-range" id="falhasSliderMax" value="0">
-                    <div id="falhasRangeValues"></div>
+                <div class=mb-3>
+                    <label for=falhasSlider class=form-label>Filtrar por Falhas:</label>
+                    <input type=range class=form-range id=falhasSliderMin value=0> - <input type=range class=form-range id=falhasSliderMax value=0>
+                    <div id=falhasRangeValues></div>
                 </div>
                 <hr>
                 <h3>Sobre</h3>
-                <p class="text-muted">Esta é uma dashboard de demonstração com dados fictícios de processos automatizados. Utiliza HTML, CSS e Plotly.js para visualização.</p>
+                <p class=text-muted>Esta é uma dashboard de demonstração com dados fictícios de processos automatizados. Utiliza HTML, CSS e Plotly.js para visualização.</p>
             </div>
             <div class="col-md-9 main-content">
                 <h1>🤖 Dashboard de Processos Automatizados Fictícios</h1>
 
                 <h2>Visão Geral do Desempenho</h2>
-                <div class="row">
-                    <div class="col-md-3"><div id="metricCardExecucoes" class="metric-card"><h4 id="metricExecucoesTitulo">Total de Execuções</h4><p id="metricExecucoesValor">0</p></div></div>
-                    <div class="col-md-3"><div id="metricCardSucesso" class="metric-card"><h4 id="metricSucessoTitulo">Taxa de Sucesso (%)</h4><p id="metricSucessoValor">0.00</p></div></div>
-                    <div class="col-md-3"><div id="metricCardDuracao" class="metric-card"><h4 id="metricDuracaoMediaTitulo">Duração Média (Horas)</h4><p id="metricDuracaoMediaValor">0.00</p></div></div>
-                    <div class="col-md-3"><div id="metricCardFalhas" class="metric-card"><h4 id="metricTotalFalhasTitulo">Total de Falhas</h4><p id="metricTotalFalhasValor">0</p></div></div>
+                <div class=row>
+                    <div class=col-md-3><div id=metricCardExecucoes class=metric-card><h4 id=metricExecucoesTitulo>Total de Execuções</h4><p id=metricExecucoesValor>0</div></div>
+                    <div class=col-md-3><div id=metricCardSucesso class=metric-card><h4 id=metricSucessoTitulo>Taxa de Sucesso (%)</h4><p id=metricSucessoValor>0.00</div></div>
+                    <div class=col-md-3><div id=metricCardDuracao class=metric-card><h4 id=metricDuracaoMediaTitulo>Duração Média (Horas)</h4><p id=metricDuracaoMediaValor>0.00</div></div>
+                    <div class=col-md-3><div id=metricCardFalhas class=metric-card><h4 id=metricTotalFalhasTitulo>Total de Falhas</h4><p id=metricTotalFalhasValor>0</div></div>
                 </div>
                 <hr>
 
                 <h2>Análise Gráfica</h2>
 
-                <div id="figStatusDistContainer" class="plotly-chart-container">
+                <div id=figStatusDistContainer class=plotly-chart-container>
                     <h3>Distribuição de Duração por Tipo de Processo e Status</h3>
-                    <div id="figStatusDist"></div>
+                    <div id=figStatusDist></div>
                 </div>
 
-                <div id="figExecucoesCatContainer" class="plotly-chart-container">
+                <div id=figExecucoesCatContainer class=plotly-chart-container>
                     <h3>Execuções Mensais por Tipo de Processo</h3>
-                    <div id="figExecucoesCat"></div>
+                    <div id=figExecucoesCat></div>
                 </div>
 
-                <div id="figFalhasDuracaoContainer" class="plotly-chart-container">
+                <div id=figFalhasDuracaoContainer class=plotly-chart-container>
                     <h3>Falhas e Duração Média por Tipo de Processo</h3>
-                    <div id="figFalhasDuracao"></div>
+                    <div id=figFalhasDuracao></div>
                 </div>
 
-                <div id="figTendenciaSucessoContainer" class="plotly-chart-container">
+                <div id=figTendenciaSucessoContainer class=plotly-chart-container>
                     <h3>Tendência de Taxa de Sucesso Mensal (Simulado)</h3>
-                    <div id="figTendenciaSucesso"></div>
+                    <div id=figTendenciaSucesso></div>
                 </div>
 
                 <h2>Dados Detalhados dos Processos</h2>
-                <div class="table-responsive">
-                    <table id="processTable" class="table table-striped table-hover">
+                <div class=table-responsive>
+                    <table id=processTable class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>ID Processo</th>
@@ -187,445 +97,16 @@ h2, h3 {
         </div>
     </div>
 
-    <script>// Geração de dados fictícios
-function generateProcessData(numProcesses = 150) {
-    const statuses = [
-        "Sucesso",
-        "Falha",
-        "Em Andamento",
-        "Cancelado"
-    ];
-    const processTypes = [
-        "ETL",
-        "Relat\xf3rio",
-        "Notifica\xe7\xe3o",
-        "Integra\xe7\xe3o",
-        "Backup"
-    ];
-    const teams = [
-        "Alpha",
-        "Beta",
-        "Gama",
-        "Delta"
-    ];
-    const data = {
-        "ID Processo": [],
-        "Nome Processo": [],
-        "Tipo de Processo": [],
-        "Status": [],
-        "Dura\xe7\xe3o (Horas)": [],
-        "Data de In\xedcio": [],
-        "Falhas": [],
-        "Equipe Respons\xe1vel": [],
-        "Custo Estimado": []
-    };
-    const seed = 42;
-    const rand = mulberry32(seed);
-    function mulberry32(a) {
-        return function() {
-            let t = a += 0x6D2B7965;
-            t = Math.imul(t ^ t >>> 15, t | 1);
-            t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-            return (t >>> 0) / 4294967296;
-        };
-    }
-    for(let i = 0; i < numProcesses; i++){
-        data["ID Processo"].push(`PROC-${String(i + 1).padStart(5, '0')}`);
-        data["Nome Processo"].push(`Processo Automatizado ${i + 1}`);
-        data["Tipo de Processo"].push(processTypes[Math.floor(rand() * processTypes.length)]);
-        data["Status"].push(statuses[Math.floor(rand() * statuses.length)]);
-        data["Dura\xe7\xe3o (Horas)"].push(parseFloat((rand() * 23 + 1).toFixed(2))); // Duração entre 1 e 24 horas
-        const start = new Date('2023-01-01').getTime();
-        const end = new Date('2024-03-31').getTime();
-        data["Data de In\xedcio"].push(new Date(start + rand() * (end - start)));
-        data["Falhas"].push(Math.floor(rand() * 5)); // Falhas entre 0 e 4
-        data["Equipe Respons\xe1vel"].push(teams[Math.floor(rand() * teams.length)]);
-        data["Custo Estimado"].push(parseFloat((rand() * 1000 + 50).toFixed(2))); // Custo entre 50 e 1050
-    }
-    const df = {
-        "ID Processo": data["ID Processo"],
-        "Nome Processo": data["Nome Processo"],
-        "Tipo de Processo": data["Tipo de Processo"],
-        "Status": data["Status"],
-        "Dura\xe7\xe3o (Horas)": data["Dura\xe7\xe3o (Horas)"],
-        "Data de In\xedcio": data["Data de In\xedcio"].map((d)=>d.toISOString().split('T')[0]),
-        "Falhas": data["Falhas"],
-        "Equipe Respons\xe1vel": data["Equipe Respons\xe1vel"],
-        "Custo Estimado": data["Custo Estimado"]
-    };
-    return df;
-}
-let allProcesses = generateProcessData();
-let filteredProcesses = JSON.parse(JSON.stringify(allProcesses)); // Cópia profunda inicial
-// --- Popular Filtros ---
-const statusSelect = document.getElementById('statusSelect');
-const uniqueStatuses = [
-    "Todos",
-    ...new Set(allProcesses["Status"])
-].sort();
-uniqueStatuses.forEach((status)=>{
-    const option = document.createElement('option');
-    option.value = status;
-    option.textContent = status;
-    statusSelect.appendChild(option);
-});
-const duracaoSliderMin = document.getElementById('duracaoSliderMin');
-const duracaoSliderMax = document.getElementById('duracaoSliderMax');
-const duracaoRangeValues = document.getElementById('duracaoRangeValues');
-const minDuration = Math.min(...allProcesses["Dura\xe7\xe3o (Horas)"]);
-const maxDuration = Math.max(...allProcesses["Dura\xe7\xe3o (Horas)"]);
-duracaoSliderMin.min = minDuration;
-duracaoSliderMin.max = maxDuration;
-duracaoSliderMin.value = minDuration;
-duracaoSliderMax.min = minDuration;
-duracaoSliderMax.max = maxDuration;
-duracaoSliderMax.value = maxDuration;
-duracaoRangeValues.innerHTML = `${parseFloat(minDuration).toFixed(2)}h - ${parseFloat(maxDuration).toFixed(2)}h`;
-const falhasSliderMin = document.getElementById('falhasSliderMin');
-const falhasSliderMax = document.getElementById('falhasSliderMax');
-const falhasRangeValues = document.getElementById('falhasRangeValues');
-const minFailures = Math.min(...allProcesses["Falhas"]);
-const maxFailures = Math.max(...allProcesses["Falhas"]);
-falhasSliderMin.min = minFailures;
-falhasSliderMin.max = maxFailures;
-falhasSliderMin.value = minFailures;
-falhasSliderMax.min = minFailures;
-falhasSliderMax.max = maxFailures;
-falhasSliderMax.value = maxFailures;
-falhasRangeValues.innerHTML = `${minFailures} - ${maxFailures}`;
-// --- Funções de Filtragem e Atualização ---
-function updateFilters() {
-    const selectedStatus = statusSelect.value;
-    const currentMinDuration = parseFloat(duracaoSliderMin.value);
-    const currentMaxDuration = parseFloat(duracaoSliderMax.value);
-    const currentMinFailures = parseInt(falhasSliderMin.value);
-    const currentMaxFailures = parseInt(falhasSliderMax.value);
-    filteredProcesses = allProcesses["ID Processo"].map((_, i)=>({
-            "ID Processo": allProcesses["ID Processo"][i],
-            "Nome Processo": allProcesses["Nome Processo"][i],
-            "Tipo de Processo": allProcesses["Tipo de Processo"][i],
-            "Status": allProcesses["Status"][i],
-            "Dura\xe7\xe3o (Horas)": allProcesses["Dura\xe7\xe3o (Horas)"][i],
-            "Data de In\xedcio": allProcesses["Data de In\xedcio"][i],
-            "Falhas": allProcesses["Falhas"][i],
-            "Equipe Respons\xe1vel": allProcesses["Equipe Respons\xe1vel"][i],
-            "Custo Estimado": allProcesses["Custo Estimado"][i]
-        }));
-    if (selectedStatus !== "Todos") filteredProcesses = filteredProcesses.filter((p)=>p.Status === selectedStatus);
-    filteredProcesses = filteredProcesses.filter((p)=>p["Dura\xe7\xe3o (Horas)"] >= currentMinDuration && p["Dura\xe7\xe3o (Horas)"] <= currentMaxDuration && p["Falhas"] >= currentMinFailures && p["Falhas"] <= currentMaxFailures);
-    renderDashboard(filteredProcesses);
-}
-// --- Funções de Renderização ---
-function renderDashboard(processes) {
-    // Métricas Principais
-    const totalExecutions = processes.length;
-    const successfulProcesses = processes.filter((p)=>p.Status === "Sucesso");
-    const successRate = totalExecutions > 0 ? successfulProcesses.length / totalExecutions * 100 : 0;
-    const averageDuration = processes.length > 0 ? processes.reduce((sum, p)=>sum + p["Dura\xe7\xe3o (Horas)"], 0) / processes.length : 0;
-    const totalFailures = processes.reduce((sum, p)=>sum + p.Falhas, 0);
-    document.getElementById('metricExecucoesValor').textContent = totalExecutions.toLocaleString('pt-BR');
-    document.getElementById('metricSucessoValor').textContent = successRate.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-    document.getElementById('metricDuracaoMediaValor').textContent = averageDuration.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-    document.getElementById('metricTotalFalhasValor').textContent = totalFailures.toLocaleString('pt-BR');
-    // Aplicar cores aleatórias aos cards de métrica
-    const metricCards = [
-        document.getElementById('metricCardExecucoes'),
-        document.getElementById('metricCardSucesso'),
-        document.getElementById('metricCardDuracao'),
-        document.getElementById('metricCardFalhas')
-    ];
-    const colors = [
-        'metric-card-random-1',
-        'metric-card-random-2',
-        'metric-card-random-3',
-        'metric-card-random-4'
-    ];
-    metricCards.forEach((card, index)=>{
-        card.classList.remove(...colors); // Remove classes de cor existentes
-        card.classList.add(colors[index % colors.length]); // Adiciona a próxima cor da sequência
-    });
-    // Visualizações (Plotly.js)
-    // Distribuição de Status por Tipo de Processo
-    const statusDistData = [
-        {
-            type: 'box',
-            y: processes.map((p)=>p["Dura\xe7\xe3o (Horas)"]),
-            x: processes.map((p)=>p["Tipo de Processo"]),
-            color: processes.map((p)=>p.Status),
-            boxpoints: 'outliers',
-            jitter: 0.3,
-            pointpos: -1.8,
-            marker: {
-                color: '#007bff'
-            },
-            line: {
-                width: 1
-            },
-            showlegend: true
-        }
-    ];
-    const statusDistLayout = {
-        yaxis: {
-            title: "Dura\xe7\xe3o (Horas)"
-        },
-        xaxis: {
-            title: 'Tipo de Processo'
-        },
-        margin: {
-            t: 50,
-            b: 50,
-            l: 50,
-            r: 20
-        },
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        title: {
-            text: "Distribui\xe7\xe3o de Dura\xe7\xe3o por Tipo de Processo e Status"
-        }
-    };
-    Plotly.newPlot('figStatusDist', statusDistData, statusDistLayout, {
-        responsive: true
-    });
-    // Execuções Mensais por Tipo de Processo
-    const executionsByMonthType = processes.reduce((acc, p)=>{
-        const date = new Date(p["Data de In\xedcio"]);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // 0-indexed month
-        const yearMonth = `${year}-${String(month).padStart(2, '0')}`;
-        const processType = p["Tipo de Processo"];
-        if (!acc[yearMonth]) acc[yearMonth] = {};
-        if (!acc[yearMonth][processType]) acc[yearMonth][processType] = 0;
-        acc[yearMonth][processType]++;
-        return acc;
-    }, {});
-    const sortedMonths = Object.keys(executionsByMonthType).sort();
-    const traces = [];
-    const processTypesInvolved = [
-        ...new Set(processes.map((p)=>p["Tipo de Processo"]))
-    ];
-    processTypesInvolved.forEach((type)=>{
-        const traceData = sortedMonths.map((month)=>({
-                x: new Date(`${month}-01`),
-                y: executionsByMonthType[month] && executionsByMonthType[month][type] ? executionsByMonthType[month][type] : 0
-            }));
-        traces.push({
-            x: traceData.map((d)=>d.x),
-            y: traceData.map((d)=>d.y),
-            mode: 'lines+markers',
-            type: 'scatter',
-            name: type
-        });
-    });
-    const executionsCatLayout = {
-        yaxis: {
-            title: "N\xfamero de Execu\xe7\xf5es"
-        },
-        xaxis: {
-            title: 'Data'
-        },
-        margin: {
-            t: 50,
-            b: 50,
-            l: 50,
-            r: 20
-        },
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        title: {
-            text: "Execu\xe7\xf5es Mensais por Tipo de Processo"
-        }
-    };
-    Plotly.newPlot('figExecucoesCat', traces, executionsCatLayout, {
-        responsive: true
-    });
-    // Falhas vs. Duração Média por Tipo de Processo
-    const failureDurationData = processes.reduce((acc, p)=>{
-        const type = p["Tipo de Processo"];
-        if (!acc[type]) acc[type] = {
-            totalFailures: 0,
-            totalDuration: 0,
-            count: 0
-        };
-        acc[type].totalFailures += p.Falhas;
-        acc[type].totalDuration += p["Dura\xe7\xe3o (Horas)"];
-        acc[type].count++;
-        return acc;
-    }, {});
-    const failureDurationAggregated = Object.entries(failureDurationData).map(([type, data])=>({
-            "Tipo de Processo": type,
-            "Total de Falhas": data.totalFailures,
-            "Dura\xe7\xe3o M\xe9dia": data.totalDuration / data.count
-        }));
-    const failureDurationTrace = [
-        {
-            x: failureDurationAggregated.map((d)=>d["Tipo de Processo"]),
-            y: failureDurationAggregated.map((d)=>d["Dura\xe7\xe3o M\xe9dia"]),
-            type: 'bar',
-            name: "Dura\xe7\xe3o M\xe9dia (Horas)",
-            marker: {
-                color: '#1f77b4'
-            }
-        },
-        {
-            x: failureDurationAggregated.map((d)=>d["Tipo de Processo"]),
-            y: failureDurationAggregated.map((d)=>d["Total de Falhas"]),
-            type: 'scatter',
-            mode: 'markers',
-            name: 'Total de Falhas',
-            marker: {
-                color: '#d62728',
-                size: 10
-            },
-            yaxis: 'y2'
-        }
-    ];
-    const failureDurationLayout = {
-        yaxis: {
-            title: "Dura\xe7\xe3o M\xe9dia (Horas)",
-            color: '#1f77b4'
-        },
-        yaxis2: {
-            title: 'Total de Falhas',
-            overlaying: 'y',
-            side: 'right',
-            color: '#d62728'
-        },
-        xaxis: {
-            title: 'Tipo de Processo'
-        },
-        margin: {
-            t: 50,
-            b: 50,
-            l: 50,
-            r: 50
-        },
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        title: {
-            text: "Falhas e Dura\xe7\xe3o M\xe9dia por Tipo de Processo"
-        },
-        legend: {
-            x: 0.1,
-            y: 1.1,
-            orientation: "h"
-        }
-    };
-    Plotly.newPlot('figFalhasDuracao', failureDurationTrace, failureDurationLayout, {
-        responsive: true
-    });
-    // Gráfico de Linha: Tendência de Sucesso Mensal (simulado)
-    const successTrendData = processes.reduce((acc, p)=>{
-        const date = new Date(p["Data de In\xedcio"]);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // 0-indexed month
-        const yearMonth = `${year}-${String(month).padStart(2, '0')}`;
-        if (!acc[yearMonth]) acc[yearMonth] = {
-            total: 0,
-            success: 0
-        };
-        acc[yearMonth].total++;
-        if (p.Status === "Sucesso") acc[yearMonth].success++;
-        return acc;
-    }, {});
-    const sortedSuccessTrend = Object.entries(successTrendData).map(([ym, data])=>({
-            AnoMes: new Date(`${ym}-01`),
-            taxaSucesso: data.total > 0 ? data.success / data.total * 100 : 0
-        })).sort((a, b)=>a.AnoMes - b.AnoMes);
-    const successTrendTrace = [
-        {
-            x: sortedSuccessTrend.map((d)=>d.AnoMes),
-            y: sortedSuccessTrend.map((d)=>d.taxaSucesso),
-            mode: 'lines+markers',
-            type: 'scatter',
-            marker: {
-                color: '#2ca02c'
-            },
-            line: {
-                color: '#2ca02c'
-            },
-            showlegend: false
-        }
-    ];
-    const successTrendLayout = {
-        xaxis: {
-            title: 'Data'
-        },
-        yaxis: {
-            title: 'Taxa de Sucesso (%)'
-        },
-        margin: {
-            t: 50,
-            b: 50,
-            l: 50,
-            r: 20
-        },
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        title: {
-            text: "Tend\xeancia de Taxa de Sucesso Mensal (Simulado)"
-        }
-    };
-    Plotly.newPlot('figTendenciaSucesso', successTrendTrace, successTrendLayout, {
-        responsive: true
-    });
-    // Tabela de Dados
-    const tableBody = document.getElementById('processTable').querySelector('tbody');
-    tableBody.innerHTML = ''; // Limpa o corpo da tabela
-    processes.forEach((p)=>{
-        const row = tableBody.insertRow();
-        row.innerHTML = `
-                    <td>${p["ID Processo"]}</td>
-                    <td>${p["Nome Processo"]}</td>
-                    <td>${p["Tipo de Processo"]}</td>
-                    <td>${p.Status}</td>
-                    <td>${p["Dura\xe7\xe3o (Horas)"].toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}</td>
-                    <td>${p["Data de In\xedcio"]}</td>
-                    <td>${p.Falhas.toLocaleString('pt-BR')}</td>
-                    <td>${p["Equipe Respons\xe1vel"]}</td>
-                    <td>R$ ${p["Custo Estimado"].toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}</td>
-                `;
-    });
-}
-// --- Event Listeners para Filtros ---
-statusSelect.addEventListener('change', updateFilters);
-duracaoSliderMin.addEventListener('input', ()=>{
-    if (parseFloat(duracaoSliderMin.value) > parseFloat(duracaoSliderMax.value)) duracaoSliderMin.value = duracaoSliderMax.value;
-    duracaoRangeValues.innerHTML = `${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`;
-    updateFilters();
-});
-duracaoSliderMax.addEventListener('input', ()=>{
-    if (parseFloat(duracaoSliderMax.value) < parseFloat(duracaoSliderMin.value)) duracaoSliderMax.value = duracaoSliderMin.value;
-    duracaoRangeValues.innerHTML = `${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`;
-    updateFilters();
-});
-falhasSliderMin.addEventListener('input', ()=>{
-    if (parseInt(falhasSliderMin.value) > parseInt(falhasSliderMax.value)) falhasSliderMin.value = falhasSliderMax.value;
-    falhasRangeValues.innerHTML = `${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`;
-    updateFilters();
-});
-falhasSliderMax.addEventListener('input', ()=>{
-    if (parseInt(falhasSliderMax.value) < parseInt(falhasSliderMin.value)) falhasSliderMax.value = falhasSliderMin.value;
-    falhasRangeValues.innerHTML = `${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`;
-    updateFilters();
-});
-// --- Inicialização ---
-document.addEventListener('DOMContentLoaded', ()=>{
-    updateFilters(); // Renderiza com os filtros padrão
-});
-
-</script>
+    <script>function generateProcessData(e=150){var a;let t=["Sucesso","Falha","Em Andamento","Cancelado"],o=["ETL","Relatório","Notificação","Integração","Backup"],r=["Alpha","Beta","Gama","Delta"],s=[],l=[],i=[],n=[],d=[],u=[],c=[],m=[],p=[],S=(a=42,function(){let e=a+=0x6d2b7965;return e=Math.imul(e^e>>>15,1|e),((e^=e+Math.imul(e^e>>>7,61|e))>>>0)/0x100000000});for(let a=0;a<e;a++){s.push(`PROC-${String(a+1).padStart(5,"0")}`),l.push(`Processo Automatizado ${a+1}`),i.push(o[Math.floor(S()*o.length)]),n.push(t[Math.floor(S()*t.length)]),d.push(parseFloat((23*S()+1).toFixed(2)));let e=new Date("2023-01-01").getTime(),h=new Date("2024-03-31").getTime();u.push(new Date(e+S()*(h-e))),c.push(Math.floor(5*S())),m.push(r[Math.floor(S()*r.length)]),p.push(parseFloat((1e3*S()+50).toFixed(2)))}return{"ID Processo":s,"Nome Processo":l,"Tipo de Processo":i,Status:n,"Duração (Horas)":d,"Data de Início":u.map(e=>e.toISOString().split("T")[0]),Falhas:c,"Equipe Responsável":m,"Custo Estimado":p}}let allProcesses=generateProcessData(),filteredProcesses=JSON.parse(JSON.stringify(allProcesses));const statusSelect=document.getElementById("statusSelect"),uniqueStatuses=["Todos",...new Set(allProcesses.Status)].sort();uniqueStatuses.forEach(e=>{let a=document.createElement("option");a.value=e,a.textContent=e,statusSelect.appendChild(a)});const duracaoSliderMin=document.getElementById("duracaoSliderMin"),duracaoSliderMax=document.getElementById("duracaoSliderMax"),duracaoRangeValues=document.getElementById("duracaoRangeValues"),minDuration=Math.min(...allProcesses["Duração (Horas)"]),maxDuration=Math.max(...allProcesses["Duração (Horas)"]);duracaoSliderMin.min=minDuration,duracaoSliderMin.max=maxDuration,duracaoSliderMin.value=minDuration,duracaoSliderMax.min=minDuration,duracaoSliderMax.max=maxDuration,duracaoSliderMax.value=maxDuration,duracaoRangeValues.innerHTML=`${parseFloat(minDuration).toFixed(2)}h - ${parseFloat(maxDuration).toFixed(2)}h`;const falhasSliderMin=document.getElementById("falhasSliderMin"),falhasSliderMax=document.getElementById("falhasSliderMax"),falhasRangeValues=document.getElementById("falhasRangeValues"),minFailures=Math.min(...allProcesses.Falhas),maxFailures=Math.max(...allProcesses.Falhas);function updateFilters(){let e=statusSelect.value,a=parseFloat(duracaoSliderMin.value),t=parseFloat(duracaoSliderMax.value),o=parseInt(falhasSliderMin.value),r=parseInt(falhasSliderMax.value);filteredProcesses=allProcesses["ID Processo"].map((e,a)=>({"ID Processo":allProcesses["ID Processo"][a],"Nome Processo":allProcesses["Nome Processo"][a],"Tipo de Processo":allProcesses["Tipo de Processo"][a],Status:allProcesses.Status[a],"Duração (Horas)":allProcesses["Duração (Horas)"][a],"Data de Início":allProcesses["Data de Início"][a],Falhas:allProcesses.Falhas[a],"Equipe Responsável":allProcesses["Equipe Responsável"][a],"Custo Estimado":allProcesses["Custo Estimado"][a]})),"Todos"!==e&&(filteredProcesses=filteredProcesses.filter(a=>a.Status===e)),renderDashboard(filteredProcesses=filteredProcesses.filter(e=>e["Duração (Horas)"]>=a&&e["Duração (Horas)"]<=t&&e.Falhas>=o&&e.Falhas<=r))}function renderDashboard(e){let a=e.length,t=e.filter(e=>"Sucesso"===e.Status),o=a>0?t.length/a*100:0,r=e.length>0?e.reduce((e,a)=>e+a["Duração (Horas)"],0)/e.length:0,s=e.reduce((e,a)=>e+a.Falhas,0);document.getElementById("metricExecucoesValor").textContent=a.toLocaleString("pt-BR"),document.getElementById("metricSucessoValor").textContent=o.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}),document.getElementById("metricDuracaoMediaValor").textContent=r.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}),document.getElementById("metricTotalFalhasValor").textContent=s.toLocaleString("pt-BR");let l=[document.getElementById("metricCardExecucoes"),document.getElementById("metricCardSucesso"),document.getElementById("metricCardDuracao"),document.getElementById("metricCardFalhas")],i=["metric-card-random-1","metric-card-random-2","metric-card-random-3","metric-card-random-4"];l.forEach((e,a)=>{e.classList.remove(...i),e.classList.add(i[a%i.length])});let n=[{type:"box",y:e.map(e=>e["Duração (Horas)"]),x:e.map(e=>e["Tipo de Processo"]),color:e.map(e=>e.Status),boxpoints:"outliers",jitter:.3,pointpos:-1.8,marker:{color:"#007bff"},line:{width:1},showlegend:!0}];Plotly.newPlot("figStatusDist",n,{yaxis:{title:"Duração (Horas)"},xaxis:{title:"Tipo de Processo"},margin:{t:50,b:50,l:50,r:20},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",title:{text:"Distribuição de Duração por Tipo de Processo e Status"}},{responsive:!0});let d=e.reduce((e,a)=>{let t=new Date(a["Data de Início"]),o=t.getFullYear(),r=t.getMonth()+1,s=`${o}-${String(r).padStart(2,"0")}`,l=a["Tipo de Processo"];return e[s]||(e[s]={}),e[s][l]||(e[s][l]=0),e[s][l]++,e},{}),u=Object.keys(d).sort(),c=[];[...new Set(e.map(e=>e["Tipo de Processo"]))].forEach(e=>{let a=u.map(a=>({x:new Date(`${a}-01`),y:d[a]&&d[a][e]?d[a][e]:0}));c.push({x:a.map(e=>e.x),y:a.map(e=>e.y),mode:"lines+markers",type:"scatter",name:e})}),Plotly.newPlot("figExecucoesCat",c,{yaxis:{title:"Número de Execuções"},xaxis:{title:"Data"},margin:{t:50,b:50,l:50,r:20},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",title:{text:"Execuções Mensais por Tipo de Processo"}},{responsive:!0});let m=Object.entries(e.reduce((e,a)=>{let t=a["Tipo de Processo"];return e[t]||(e[t]={totalFailures:0,totalDuration:0,count:0}),e[t].totalFailures+=a.Falhas,e[t].totalDuration+=a["Duração (Horas)"],e[t].count++,e},{})).map(([e,a])=>({"Tipo de Processo":e,"Total de Falhas":a.totalFailures,"Duração Média":a.totalDuration/a.count})),p=[{x:m.map(e=>e["Tipo de Processo"]),y:m.map(e=>e["Duração Média"]),type:"bar",name:"Duração Média (Horas)",marker:{color:"#1f77b4"}},{x:m.map(e=>e["Tipo de Processo"]),y:m.map(e=>e["Total de Falhas"]),type:"scatter",mode:"markers",name:"Total de Falhas",marker:{color:"#d62728",size:10},yaxis:"y2"}];Plotly.newPlot("figFalhasDuracao",p,{yaxis:{title:"Duração Média (Horas)",color:"#1f77b4"},yaxis2:{title:"Total de Falhas",overlaying:"y",side:"right",color:"#d62728"},xaxis:{title:"Tipo de Processo"},margin:{t:50,b:50,l:50,r:50},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",title:{text:"Falhas e Duração Média por Tipo de Processo"},legend:{x:.1,y:1.1,orientation:"h"}},{responsive:!0});let S=Object.entries(e.reduce((e,a)=>{let t=new Date(a["Data de Início"]),o=t.getFullYear(),r=t.getMonth()+1,s=`${o}-${String(r).padStart(2,"0")}`;return e[s]||(e[s]={total:0,success:0}),e[s].total++,"Sucesso"===a.Status&&e[s].success++,e},{})).map(([e,a])=>({AnoMes:new Date(`${e}-01`),taxaSucesso:a.total>0?a.success/a.total*100:0})).sort((e,a)=>e.AnoMes-a.AnoMes),h=[{x:S.map(e=>e.AnoMes),y:S.map(e=>e.taxaSucesso),mode:"lines+markers",type:"scatter",marker:{color:"#2ca02c"},line:{color:"#2ca02c"},showlegend:!1}];Plotly.newPlot("figTendenciaSucesso",h,{xaxis:{title:"Data"},yaxis:{title:"Taxa de Sucesso (%)"},margin:{t:50,b:50,l:50,r:20},paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",title:{text:"Tendência de Taxa de Sucesso Mensal (Simulado)"}},{responsive:!0});let x=document.getElementById("processTable").querySelector("tbody");x.innerHTML="",e.forEach(e=>{x.insertRow().innerHTML=`
+                    <td>${e["ID Processo"]}</td>
+                    <td>${e["Nome Processo"]}</td>
+                    <td>${e["Tipo de Processo"]}</td>
+                    <td>${e.Status}</td>
+                    <td>${e["Duração (Horas)"].toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+                    <td>${e["Data de Início"]}</td>
+                    <td>${e.Falhas.toLocaleString("pt-BR")}</td>
+                    <td>${e["Equipe Responsável"]}</td>
+                    <td>R$ ${e["Custo Estimado"].toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+                `})}falhasSliderMin.min=minFailures,falhasSliderMin.max=maxFailures,falhasSliderMin.value=minFailures,falhasSliderMax.min=minFailures,falhasSliderMax.max=maxFailures,falhasSliderMax.value=maxFailures,falhasRangeValues.innerHTML=`${minFailures} - ${maxFailures}`,statusSelect.addEventListener("change",updateFilters),duracaoSliderMin.addEventListener("input",()=>{parseFloat(duracaoSliderMin.value)>parseFloat(duracaoSliderMax.value)&&(duracaoSliderMin.value=duracaoSliderMax.value),duracaoRangeValues.innerHTML=`${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`,updateFilters()}),duracaoSliderMax.addEventListener("input",()=>{parseFloat(duracaoSliderMax.value)<parseFloat(duracaoSliderMin.value)&&(duracaoSliderMax.value=duracaoSliderMin.value),duracaoRangeValues.innerHTML=`${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`,updateFilters()}),falhasSliderMin.addEventListener("input",()=>{parseInt(falhasSliderMin.value)>parseInt(falhasSliderMax.value)&&(falhasSliderMin.value=falhasSliderMax.value),falhasRangeValues.innerHTML=`${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`,updateFilters()}),falhasSliderMax.addEventListener("input",()=>{parseInt(falhasSliderMax.value)<parseInt(falhasSliderMin.value)&&(falhasSliderMax.value=falhasSliderMin.value),falhasRangeValues.innerHTML=`${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`,updateFilters()}),document.addEventListener("DOMContentLoaded",()=>{updateFilters()});</script>
 
 
-<script src="/dashboard.b5a040c9.js"></script></body></html>
