@@ -1,512 +1,300 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Processos de Venda de Roupas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            color: #343a40;
-            font-family: 'Arial', sans-serif;
-        }
-        .sidebar {
-            background-color: #e9ecef;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,.05);
-        }
-        .main-content {
-            padding: 30px;
-        }
-        h1 {
-            color: #0056b3;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-        h2 {
-            color: #007bff;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #dee2e6;
-            padding-bottom: 10px;
-        }
-        h3 {
-            color: #007bff;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        .plotly-chart-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.1);
-            margin-bottom: 25px;
-            transition: transform .2s ease-in-out;
-        }
-        .plotly-chart-container:hover {
-            transform: translateY(-5px);
-        }
-        .metric-card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.1);
-            text-align: center;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 160px;
-            transition: transform .2s ease-in-out;
-        }
-        .metric-card:hover {
-            transform: translateY(-5px);
-        }
-        .metric-card h4 {
-            font-size: 1.1rem;
-            color: #6c757d;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-        .metric-card p {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 0;
-        }
-        .nav-link {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color .3s ease, color .3s ease;
-        }
-        .nav-link:hover {
-            background-color: #007bff;
-            color: white;
-        }
-        .sidebar h2 {
-            border-bottom: none;
-            padding-bottom: 0;
-            color: #343a40;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        .sidebar hr {
-            margin: 25px 0;
-            border-top: 1px solid #ced4da;
-        }
-        .form-label {
-            font-weight: 500;
-        }
-        .form-control, .form-select {
-            border-radius: 5px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,.08);
-        }
-        .form-range {
-            cursor: pointer;
-        }
-        .metric-card-color-1 { background: linear-gradient(135deg, #007bff, #00c6ff); color: white; }
-        .metric-card-color-2 { background: linear-gradient(135deg, #28a745, #50c878); color: white; }
-        .metric-card-color-3 { background: linear-gradient(135deg, #ffc107, #ffd700); color: #343a40; }
-        .metric-card-color-4 { background: linear-gradient(135deg, #dc3545, #ff6347); color: white; }
-    </style>
+    <title>Dashboard de Vendas de Roupas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 sidebar">
-                <h2>Menu Principal</h2>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Visão Geral de Vendas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="produtos.html">Produtos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="clientes.html">Clientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="relatorios.html">Relatórios</a>
-                    </li>
+    <header>
+        <div class="container">
+            <h1>Dashboard de Vendas de Roupas</h1>
+            <nav>
+                <ul>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                    <li><a href="equipes.html">Equipes</a></li>
                 </ul>
-                <hr>
-                <h2>Filtros</h2>
-                <div class="mb-3">
-                    <label for="statusSelect" class="form-label">Filtrar por Status da Venda:</label>
-                    <select id="statusSelect" class="form-select">
-                        <option value="Todos">Todos</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="valorSlider" class="form-label">Filtrar por Valor da Venda (R$):</label>
-                    <div class="d-flex justify-content-between">
-                        <span id="valorSliderMinLabel"></span> - <span id="valorSliderMaxLabel"></span>
-                    </div>
-                    <input type="range" class="form-range" id="valorSliderMin" value="0">
-                    <input type="range" class="form-range" id="valorSliderMax" value="0">
-                </div>
-                <div class="mb-3">
-                    <label for="quantidadeSlider" class="form-label">Filtrar por Quantidade de Itens:</label>
-                     <div class="d-flex justify-content-between">
-                        <span id="quantidadeSliderMinLabel"></span> - <span id="quantidadeSliderMaxLabel"></span>
-                    </div>
-                    <input type="range" class="form-range" id="quantidadeSliderMin" value="0">
-                    <input type="range" class="form-range" id="quantidadeSliderMax" value="0">
-                </div>
-                <hr>
-                <h3>Sobre</h3>
-                <p class="text-muted">Dashboard de vendas de roupas, apresentando métricas e análises visuais para otimizar o processo comercial. Dados fictícios gerados via JavaScript.</p>
-            </div>
-            <div class="col-md-9 main-content">
-                <h1>👕 Dashboard de Vendas de Roupas</h1>
-
-                <h2>Resumo das Vendas</h2>
-                <div class="row">
-                    <div class="col-md-3"><div id="metricCardTotalVendas" class="metric-card"><h4 id="metricTotalVendasTitulo">Total de Vendas</h4><p id="metricTotalVendasValor">0</p></div></div>
-                    <div class="col-md-3"><div id="metricCardValorTotal" class="metric-card"><h4 id="metricValorTotalTitulo">Valor Total Vendido</h4><p id="metricValorTotalValor">R$ 0,00</p></div></div>
-                    <div class="col-md-3"><div id="metricCardMediaValor" class="metric-card"><h4 id="metricMediaValorTitulo">Valor Médio por Venda</h4><p id="metricMediaValorValor">R$ 0,00</p></div></div>
-                    <div class="col-md-3"><div id="metricCardItensVendidos" class="metric-card"><h4 id="metricItensVendidosTitulo">Total de Itens Vendidos</h4><p id="metricItensVendidosValor">0</p></div></div>
-                </div>
-
-                <h2>Análise Gráfica</h2>
-
-                <div id="figVendasPorStatusContainer" class="plotly-chart-container">
-                    <h3>Vendas por Status da Venda</h3>
-                    <div id="figVendasPorStatus"></div>
-                </div>
-
-                <div id="figVendasPorMesContainer" class="plotly-chart-container">
-                    <h3>Evolução das Vendas por Mês</h3>
-                    <div id="figVendasPorMes"></div>
-                </div>
-
-                <div id="figTopProdutosContainer" class="plotly-chart-container">
-                    <h3>Top 5 Produtos Vendidos</h3>
-                    <div id="figTopProdutos"></div>
-                </div>
-
-                <h2>Detalhes das Vendas</h2>
-                <div class="table-responsive">
-                    <table id="vendasTable" class="table table-striped table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>ID Venda</th>
-                                <th>Data</th>
-                                <th>Cliente</th>
-                                <th>Produto</th>
-                                <th>Quantidade</th>
-                                <th>Valor Unitário</th>
-                                <th>Valor Total</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <script>
-        function generateSalesData(numSales = 200) {
-            const statuses = ["Concluída", "Pendente", "Cancelada", "Devolvida"];
-            const products = ["Camiseta Básica", "Calça Jeans", "Vestido Floral", "Jaqueta de Couro", "Saia Midi", "Blusa de Seda", "Shorts Esportivo", "Moletom Canguru"];
-            const customers = ["Ana Silva", "Bruno Costa", "Carla Dias", "Daniel Rocha", "Eduarda Lima", "Fábio Souza", "Gabriela Martins", "Hugo Pereira"];
-            const data = {
-                "ID Venda": [],
-                "Data": [],
-                "Cliente": [],
-                "Produto": [],
-                "Quantidade": [],
-                "Valor Unitário": [],
-                "Valor Total": [],
-                "Status": []
-            };
+    <main class="container">
+        <section id="overview">
+            <h2>Visão Geral</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Vendas Totais</h3>
+                    <p id="totalSales">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Novos Clientes</h3>
+                    <p id="newCustomers">0</p>
+                </div>
+                <div class="card">
+                    <h3>Peças Vendidas</h3>
+                    <p id="piecesSold">0</p>
+                </div>
+            </div>
+        </section>
 
-            const seed = 123;
-            const rand = mulberry32(seed);
+        <section id="recent-sales">
+            <h2>Vendas Recentes</h2>
+            <ul id="recentSalesList">
+                <li>Nenhuma venda recente ainda.</li>
+            </ul>
+        </section>
 
-            function mulberry32(a) {
-                return function() {
-                    let t = a += 0x6D2B7965;
-                    t = Math.imul(t ^ t >>> 15, t | 1);
-                    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-                    return ((t >>> 0) / 4294967296);
-                }
-            }
+        <section id="top-products">
+            <h2>Produtos Mais Vendidos</h2>
+            <div class="chart-placeholder">
+                <p>Gráfico de barras (simulado)</p>
+                <div class="bar-chart">
+                    <div class="bar" style="height: 70%;">Camisa Polo</div>
+                    <div class="bar" style="height: 50%;">Calça Jeans</div>
+                    <div class="bar" style="height: 30%;">Vestido Floral</div>
+                    <div class="bar" style="height: 20%;">Saia Midi</div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-            const priceRanges = {
-                "Camiseta Básica": [30, 60],
-                "Calça Jeans": [100, 250],
-                "Vestido Floral": [120, 300],
-                "Jaqueta de Couro": [300, 800],
-                "Saia Midi": [80, 180],
-                "Blusa de Seda": [150, 350],
-                "Shorts Esportivo": [50, 100],
-                "Moletom Canguru": [90, 180]
-            };
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Seu Negócio de Roupas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 
-            for (let i = 0; i < numSales; i++) {
-                const saleId = `VEN-${String(i + 1).padStart(6, '0')}`;
-                const saleDate = new Date(2023, 0, 1);
-                const daysToAdd = Math.floor(rand() * 365);
-                saleDate.setDate(saleDate.getDate() + daysToAdd);
-
-                const selectedProduct = products[Math.floor(rand() * products.length)];
-                const minPrice = priceRanges[selectedProduct][0];
-                const maxPrice = priceRanges[selectedProduct][1];
-                const unitPrice = parseFloat((minPrice + rand() * (maxPrice - minPrice)).toFixed(2));
-                const quantity = Math.floor(rand() * 5) + 1;
-                const totalPrice = parseFloat((unitPrice * quantity).toFixed(2));
-                const selectedStatus = statuses[Math.floor(rand() * statuses.length)];
-
-                data["ID Venda"].push(saleId);
-                data["Data"].push(saleDate);
-                data["Cliente"].push(customers[Math.floor(rand() * customers.length)]);
-                data["Produto"].push(selectedProduct);
-                data["Quantidade"].push(quantity);
-                data["Valor Unitário"].push(unitPrice);
-                data["Valor Total"].push(totalPrice);
-                data["Status"].push(selectedStatus);
-            }
-
-            data["Data"] = data["Data"].map(d => d.toISOString().split('T')[0]);
-
-            return data;
-        }
-
-        let allSales = generateSalesData();
-        let filteredSales = JSON.parse(JSON.stringify(allSales));
-
-        const statusSelect = document.getElementById('statusSelect');
-        const uniqueStatuses = ["Todos", ...new Set(allSales["Status"])].sort();
-        uniqueStatuses.forEach(status => {
-            const option = document.createElement('option');
-            option.value = status;
-            option.textContent = status;
-            statusSelect.appendChild(option);
-        });
-
-        const valorSliderMin = document.getElementById('valorSliderMin');
-        const valorSliderMax = document.getElementById('valorSliderMax');
-        const valorSliderMinLabel = document.getElementById('valorSliderMinLabel');
-        const valorSliderMaxLabel = document.getElementById('valorSliderMaxLabel');
-        const minTotalValue = Math.min(...allSales["Valor Total"]);
-        const maxTotalValue = Math.max(...allSales["Valor Total"]);
-        valorSliderMin.min = minTotalValue; valorSliderMin.max = maxTotalValue; valorSliderMin.value = minTotalValue;
-        valorSliderMax.min = minTotalValue; valorSliderMax.max = maxTotalValue; valorSliderMax.value = maxTotalValue;
-        valorSliderMinLabel.textContent = `R$ ${parseFloat(minTotalValue).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        valorSliderMaxLabel.textContent = `R$ ${parseFloat(maxTotalValue).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
-
-        const quantidadeSliderMin = document.getElementById('quantidadeSliderMin');
-        const quantidadeSliderMax = document.getElementById('quantidadeSliderMax');
-        const quantidadeSliderMinLabel = document.getElementById('quantidadeSliderMinLabel');
-        const quantidadeSliderMaxLabel = document.getElementById('quantidadeSliderMaxLabel');
-        const minQuantity = Math.min(...allSales["Quantidade"]);
-        const maxQuantity = Math.max(...allSales["Quantidade"]);
-        quantidadeSliderMin.min = minQuantity; quantidadeSliderMin.max = maxQuantity; quantidadeSliderMin.value = minQuantity;
-        quantidadeSliderMax.min = minQuantity; quantidadeSliderMax.max = maxQuantity; quantidadeSliderMax.value = maxQuantity;
-        quantidadeSliderMinLabel.textContent = `${minQuantity}`;
-        quantidadeSliderMaxLabel.textContent = `${maxQuantity}`;
-
-        function updateFilters() {
-            const selectedStatus = statusSelect.value;
-            const currentMinTotalValue = parseFloat(valorSliderMin.value);
-            const currentMaxTotalValue = parseFloat(valorSliderMax.value);
-            const currentMinQuantity = parseInt(quantidadeSliderMin.value);
-            const currentMaxQuantity = parseInt(quantidadeSliderMax.value);
-
-            filteredSales = allSales["ID Venda"].map((_, i) => ({
-                "ID Venda": allSales["ID Venda"][i],
-                "Data": allSales["Data"][i],
-                "Cliente": allSales["Cliente"][i],
-                "Produto": allSales["Produto"][i],
-                "Quantidade": allSales["Quantidade"][i],
-                "Valor Unitário": allSales["Valor Unitário"][i],
-                "Valor Total": allSales["Valor Total"][i],
-                "Status": allSales["Status"][i]
-            }));
-
-            if (selectedStatus !== "Todos") {
-                filteredSales = filteredSales.filter(s => s.Status === selectedStatus);
-            }
-
-            filteredSales = filteredSales.filter(s =>
-                s["Valor Total"] >= currentMinTotalValue && s["Valor Total"] <= currentMaxTotalValue &&
-                s["Quantidade"] >= currentMinQuantity && s["Quantidade"] <= currentMaxQuantity
-            );
-
-            renderDashboard(filteredSales);
-        }
-
-        function renderDashboard(sales) {
-            const totalSales = sales.length;
-            const totalRevenue = sales.reduce((sum, s) => sum + s["Valor Total"], 0);
-            const averageSaleValue = totalSales > 0 ? totalRevenue / totalSales : 0;
-            const totalItemsSold = sales.reduce((sum, s) => sum + s.Quantidade, 0);
-
-            document.getElementById('metricTotalVendasValor').textContent = totalSales.toLocaleString('pt-BR');
-            document.getElementById('metricValorTotalValor').textContent = `R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('metricMediaValorValor').textContent = `R$ ${averageSaleValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('metricItensVendidosValor').textContent = totalItemsSold.toLocaleString('pt-BR');
-
-            const metricCards = [
-                { id: 'metricCardTotalVendas', colorClass: 'metric-card-color-1', titleId: 'metricTotalVendasTitulo', valueId: 'metricTotalVendasValor' },
-                { id: 'metricCardValorTotal', colorClass: 'metric-card-color-2', titleId: 'metricValorTotalTitulo', valueId: 'metricValorTotalValor' },
-                { id: 'metricCardMediaValor', colorClass: 'metric-card-color-3', titleId: 'metricMediaValorTitulo', valueId: 'metricMediaValorValor' },
-                { id: 'metricCardItensVendidos', colorClass: 'metric-card-color-4', titleId: 'metricItensVendidosTitulo', valueId: 'metricItensVendidosValor' }
-            ];
-
-            metricCards.forEach(cardInfo => {
-                const cardElement = document.getElementById(cardInfo.id);
-                cardElement.classList.remove('metric-card-color-1', 'metric-card-color-2', 'metric-card-color-3', 'metric-card-color-4');
-                cardElement.classList.add(cardInfo.colorClass);
-            });
-
-            const statusCounts = sales.reduce((acc, s) => {
-                acc[s.Status] = (acc[s.Status] || 0) + 1;
-                return acc;
-            }, {});
-            const statusLabels = Object.keys(statusCounts);
-            const statusValues = Object.values(statusCounts);
-
-            const salesStatusData = [{
-                labels: statusLabels,
-                values: statusValues,
-                type: 'pie',
-                hole: .4,
-                marker: { colors: ['#007bff', '#28a745', '#ffc107', '#dc3545'] }
-            }];
-            const salesStatusLayout = {
-                margin: { t: 50, b: 20, l: 20, r: 20 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                showlegend: true,
-                title: { text: 'Distribuição das Vendas por Status' }
-            };
-            Plotly.newPlot('figVendasPorStatus', salesStatusData, salesStatusLayout, {responsive: true});
-
-            const salesByMonth = sales.reduce((acc, s) => {
-                const month = s.Data.substring(0, 7);
-                if (!acc[month]) {
-                    acc[month] = { count: 0, totalValue: 0 };
-                }
-                acc[month].count++;
-                acc[month].totalValue += s["Valor Total"];
-                return acc;
-            }, {});
-
-            const sortedMonths = Object.keys(salesByMonth).sort();
-            const monthLabels = sortedMonths.map(m => new Date(m + '-01'));
-            const monthValues = sortedMonths.map(m => salesByMonth[m].totalValue);
-
-            const salesByMonthData = [{
-                x: monthLabels,
-                y: monthValues,
-                mode: 'lines+markers',
-                type: 'scatter',
-                line: { color: '#1f77b4' },
-                marker: { color: '#1f77b4', size: 6 }
-            }];
-            const salesByMonthLayout = {
-                xaxis: { title: 'Mês' },
-                yaxis: { title: 'Valor Total Vendido (R$)' },
-                margin: { t: 50, b: 50, l: 50, r: 20 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Evolução do Valor Total Vendido por Mês' }
-            };
-            Plotly.newPlot('figVendasPorMes', salesByMonthData, salesByMonthLayout, {responsive: true});
-
-            const productCounts = sales.reduce((acc, s) => {
-                acc[s.Produto] = (acc[s.Produto] || 0) + 1;
-                return acc;
-            }, {});
-
-            const sortedProducts = Object.entries(productCounts)
-                .sort(([, countA], [, countB]) => countB - countA)
-                .slice(0, 5);
-
-            const productLabels = sortedProducts.map(([product]) => product);
-            const productValues = sortedProducts.map(([, count]) => count);
-
-            const topProductsData = [{
-                x: productLabels,
-                y: productValues,
-                type: 'bar',
-                marker: { color: '#663399' }
-            }];
-            const topProductsLayout = {
-                xaxis: { title: 'Produto' },
-                yaxis: { title: 'Quantidade Vendida' },
-                margin: { t: 50, b: 50, l: 50, r: 20 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Top 5 Produtos Mais Vendidos' }
-            };
-            Plotly.newPlot('figTopProdutos', topProductsData, topProductsLayout, {responsive: true});
-
-            const tableBody = document.getElementById('vendasTable').querySelector('tbody');
-            tableBody.innerHTML = '';
-            sales.forEach(s => {
-                const row = tableBody.insertRow();
-                row.innerHTML = `
-                    <td>${s["ID Venda"]}</td>
-                    <td>${s.Data}</td>
-                    <td>${s.Cliente}</td>
-                    <td>${s.Produto}</td>
-                    <td>${s.Quantidade.toLocaleString('pt-BR')}</td>
-                    <td>R$ ${s["Valor Unitário"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>R$ ${s["Valor Total"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>${s.Status}</td>
-                `;
-            });
-        }
-
-        statusSelect.addEventListener('change', updateFilters);
-
-        valorSliderMin.addEventListener('input', () => {
-            if (parseFloat(valorSliderMin.value) > parseFloat(valorSliderMax.value)) {
-                valorSliderMin.value = valorSliderMax.value;
-            }
-            valorSliderMinLabel.textContent = `R$ ${parseFloat(valorSliderMin.value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            updateFilters();
-        });
-        valorSliderMax.addEventListener('input', () => {
-            if (parseFloat(valorSliderMax.value) < parseFloat(valorSliderMin.value)) {
-                valorSliderMax.value = valorSliderMin.value;
-            }
-            valorSliderMaxLabel.textContent = `R$ ${parseFloat(valorSliderMax.value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            updateFilters();
-        });
-
-        quantidadeSliderMin.addEventListener('input', () => {
-            if (parseInt(quantidadeSliderMin.value) > parseInt(quantidadeSliderMax.value)) {
-                quantidadeSliderMin.value = quantidadeSliderMax.value;
-            }
-            quantidadeSliderMinLabel.textContent = `${parseInt(quantidadeSliderMin.value)}`;
-            updateFilters();
-        });
-        quantidadeSliderMax.addEventListener('input', () => {
-            if (parseInt(quantidadeSliderMax.value) < parseInt(quantidadeSliderMin.value)) {
-                quantidadeSliderMax.value = quantidadeSliderMin.value;
-            }
-            quantidadeSliderMaxLabel.textContent = `${parseInt(quantidadeSliderMax.value)}`;
-            updateFilters();
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updateFilters();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+```
+
+```css
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #f4f4f4;
+    --text-color: #333;
+    --white: #fff;
+    --border-color: #ddd;
+    --card-background: #fff;
+    --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #d4edda;
+}
+
+main {
+    padding: 2rem 0;
+}
+
+section {
+    margin-bottom: 2rem;
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+section h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 0;
+}
+
+#recent-sales ul {
+    list-style: none;
+    padding: 0;
+}
+
+#recent-sales ul li {
+    padding: 0.8rem 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+#recent-sales ul li:last-child {
+    border-bottom: none;
+}
+
+.chart-placeholder {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+}
+
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 150px;
+    margin-top: 20px;
+    border-left: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.bar {
+    width: 50px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    text-align: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    transition: height 0.5s ease-in-out;
+}
+
+footer {
+    background-color: var(--text-color);
+    color: var(--white);
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+```
+
+```js
+document.addEventListener('DOMContentLoaded', () => {
+    // Simulação de dados
+    const salesData = [
+        { id: 1, product: 'Camisa Polo', customer: 'Ana Silva', amount: 150.00, date: '2023-10-26' },
+        { id: 2, product: 'Calça Jeans', customer: 'Bruno Costa', amount: 220.00, date: '2023-10-25' },
+        { id: 3, product: 'Vestido Floral', customer: 'Carla Souza', amount: 300.00, date: '2023-10-25' },
+        { id: 4, product: 'Camisa Polo', customer: 'Daniel Pereira', amount: 150.00, date: '2023-10-24' },
+        { id: 5, product: 'Saia Midi', customer: 'Eduarda Lima', amount: 180.00, date: '2023-10-24' },
+    ];
+
+    const totalSalesElement = document.getElementById('totalSales');
+    const newCustomersElement = document.getElementById('newCustomers');
+    const piecesSoldElement = document.getElementById('piecesSold');
+    const recentSalesListElement = document.getElementById('recentSalesList');
+
+    function updateDashboard() {
+        let totalSales = 0;
+        let uniqueCustomers = new Set();
+        let piecesSold = 0;
+
+        salesData.forEach(sale => {
+            totalSales += sale.amount;
+            uniqueCustomers.add(sale.customer);
+            piecesSold++; // Assumindo 1 peça por venda para simplificar
+        });
+
+        totalSalesElement.textContent = `R$ ${totalSales.toFixed(2).replace('.', ',')}`;
+        newCustomersElement.textContent = uniqueCustomers.size;
+        piecesSoldElement.textContent = piecesSold;
+
+        displayRecentSales(salesData.slice(-3)); // Exibe as últimas 3 vendas
+    }
+
+    function displayRecentSales(sales) {
+        recentSalesListElement.innerHTML = ''; // Limpa a lista existente
+        if (sales.length === 0) {
+            recentSalesListElement.innerHTML = '<li>Nenhuma venda recente ainda.</li>';
+            return;
+        }
+        sales.forEach(sale => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${sale.product} - ${sale.customer} - ${sale.date}`;
+            recentSalesListElement.appendChild(listItem);
+        });
+    }
+
+    updateDashboard();
+});
+```
