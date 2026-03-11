@@ -41,7 +41,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+            flex-wrap: wrap;
         }
 
         header h1 {
@@ -54,12 +54,12 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+            flex-wrap: wrap;
         }
 
         nav ul li {
             margin-left: 20px;
-            margin-bottom: 5px; /* Espaçamento inferior para quebra de linha */
+            margin-bottom: 5px;
         }
 
         nav ul li a {
@@ -168,12 +168,12 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
             transition: height 0.5s ease-in-out;
-            position: relative; /* Para posicionar o texto */
+            position: relative;
         }
 
         .bar span {
             position: absolute;
-            bottom: -25px; /* Posição do texto abaixo da barra */
+            bottom: -25px;
             width: 100%;
         }
 
@@ -209,7 +209,7 @@
             }
 
             .card-container {
-                grid-template-columns: 1fr; /* Uma coluna em telas menores */
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -220,9 +220,9 @@
             <h1>Dashboard de Vendas de Roupas</h1>
             <nav>
                 <ul>
-                    <li><a href="dist/produtos.html">Produtos</a></li>
-                    <li><a href="dist/clientes.html">Clientes</a></li>
-                    <li><a href="dist/equipes.html">Equipes</a></li>
+                    <li><a href="../dist/custos.html">Custos</a></li>
+                    <li><a href="../dist/clientes.html">Clientes</a></li>
+                    <li><a href="../dist/equipes.html">Equipes</a></li>
                 </ul>
             </nav>
         </div>
@@ -272,7 +272,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Simulação de dados
             const salesData = [
                 { id: 1, product: 'Camisa Polo', customer: 'Ana Silva', amount: 150.00, date: '2023-10-26' },
                 { id: 2, product: 'Calça Jeans', customer: 'Bruno Costa', amount: 220.00, date: '2023-10-25' },
@@ -297,18 +296,18 @@
                 salesData.forEach(sale => {
                     totalSales += sale.amount;
                     uniqueCustomers.add(sale.customer);
-                    piecesSold++; // Assumindo 1 peça por venda para simplificar
+                    piecesSold++;
                 });
 
                 totalSalesElement.textContent = `R$ ${totalSales.toFixed(2).replace('.', ',')}`;
                 newCustomersElement.textContent = uniqueCustomers.size;
                 piecesSoldElement.textContent = piecesSold;
 
-                displayRecentSales(salesData.slice(-5)); // Exibe as últimas 5 vendas
+                displayRecentSales(salesData.slice(-5));
             }
 
             function displayRecentSales(sales) {
-                recentSalesListElement.innerHTML = ''; // Limpa a lista existente
+                recentSalesListElement.innerHTML = '';
                 if (sales.length === 0) {
                     recentSalesListElement.innerHTML = '<li>Nenhuma venda recente ainda.</li>';
                     return;
@@ -320,9 +319,8 @@
                 });
             }
 
-            // Atualiza o gráfico de barras com dados simulados
             function updateBarChart(products) {
-                barChartContainerElement.innerHTML = ''; // Limpa o gráfico existente
+                barChartContainerElement.innerHTML = '';
 
                 const productCounts = {};
                 products.forEach(sale => {
@@ -337,13 +335,12 @@
                 }
 
                 const maxCount = Math.max(...Object.values(productCounts));
-                const maxHeight = 150; // Altura máxima em pixels para as barras
+                const maxHeight = 150;
 
                 sortedProducts.forEach(([product, count]) => {
                     const barDiv = document.createElement('div');
                     barDiv.classList.add('bar');
                     
-                    // Calcula a altura da barra proporcionalmente ao máximo, com um mínimo de 1px se houver contagem
                     const barHeight = maxCount > 0 ? Math.max(1, (count / maxCount) * maxHeight) : 0;
                     barDiv.style.height = `${barHeight}px`;
 
@@ -356,7 +353,7 @@
             }
 
             updateDashboard();
-            updateBarChart(salesData); // Chama a função para atualizar o gráfico com dados simulados
+            updateBarChart(salesData);
         });
     </script>
 </body>
