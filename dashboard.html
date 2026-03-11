@@ -1,0 +1,87 @@
+```python
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.set_page_config(layout="wide")
+
+st.title("Dashboard de Processo de Venda de Roupas")
+
+# --- Simulação de Dados ---
+@st.cache_data
+def carregar_dados():
+    data = {
+        'Data': pd.to_datetime(['2023-10-26', '2023-10-26', '2023-10-27', '2023-10-27', '2023-10-28', '2023-10-28', '2023-10-29', '2023-10-29', '2023-10-30', '2023-10-30']),
+        'Categoria': ['Camisa', 'Calça', 'Camisa', 'Vestido', 'Calça', 'Saia', 'Camisa', 'Vestido', 'Calça', 'Saia'],
+        'Preço': [120.50, 250.00, 135.00, 320.00, 265.50, 180.00, 115.00, 310.00, 240.00, 195.00],
+        'Quantidade': [2, 1, 3, 1, 2, 1, 2, 1, 3, 2],
+        'Vendedor': ['Ana', 'Bruno', 'Ana', 'Carlos', 'Bruno', 'Ana', 'Carlos', 'Ana', 'Bruno', 'Carlos'],
+        'Canal': ['Online', 'Loja Física', 'Online', 'Online', 'Loja Física', 'Online', 'Loja Física', 'Online', 'Loja Física', 'Online']
+    }
+    df = pd.DataFrame(data)
+    df['Receita'] = df['Preço'] * df['Quantidade']
+    return df
+
+df = carregar_dados()
+
+# --- Filtros ---
+st.sidebar.header("Filtros")
+filtro_data = st.sidebar.date_input("Selecione o período:", [df['Data'].min().date(), df['Data'].max().date()])
+filtro_categoria = st.sidebar.multiselect("Filtrar por Categoria:", options=df['Categoria'].unique(), default=df['Categoria'].unique())
+filtro_vendedor = st.sidebar.multiselect("Filtrar por Vendedor:", options=df['Vendedor'].unique(), default=df['Vendedor'].unique())
+filtro_canal = st.sidebar.multiselect("Filtrar por Canal:", options=df['Canal'].unique(), default=df['Canal'].unique())
+
+# Aplicar filtros
+df_filtrado = df[
+    (df['Data'].dt.date >= filtro_data[0]) &
+    (df['Data'].dt.date <= filtro_data[1]) &
+    (df['Categoria'].isin(filtro_categoria)) &
+    (df['Vendedor'].isin(filtro_vendedor)) &
+    (df['Canal'].isin(filtro_canal))
+]
+
+# --- KPIs ---
+st.header("Indicadores Chave de Performance (KPIs)")
+col1, col2, col3 = st.columns(3)
+
+total_receita = df_filtrado['Receita'].sum()
+total_vendas = df_filtrado['Quantidade'].sum()
+media_ticket = total_receita / df_filtrado.shape[0] if df_filtrado.shape[0] > 0 else 0
+
+col1.metric("Receita Total", f"R$ {total_receita:,.2f}")
+col2.metric("Total de Itens Vendidos", f"{total_vendas}")
+col3.metric("Ticket Médio", f"R$ {media_ticket:,.2f}")
+
+st.markdown("---")
+
+# --- Visualizações ---
+st.header("Análises Gráficas")
+
+# Gráfico de Receita por Categoria
+st.subheader("Receita por Categoria")
+receita_categoria = df_filtrado.groupby('Categoria')['Receita'].sum().reset_index()
+fig_categoria = px.bar(receita_categoria, x='Categoria', y='Receita', color='Categoria',
+                       title="Receita Total por Categoria",
+                       labels={'Receita': 'Receita (R$)'})
+st.plotly_chart(fig_categoria, use_container_width=True)
+
+# Gráfico de Vendas por Vendedor
+st.subheader("Vendas por Vendedor")
+vendas_vendedor = df_filtrado.groupby('Vendedor')['Quantidade'].sum().reset_index()
+fig_vendedor = px.pie(vendas_vendedor, names='Vendedor', values='Quantidade',
+                      title="Distribuição de Itens Vendidos por Vendedor",
+                      hole=.3)
+st.plotly_chart(fig_vendedor, use_container_width=True)
+
+# Gráfico de Receita ao Longo do Tempo
+st.subheader("Receita ao Longo do Tempo")
+receita_tempo = df_filtrado.groupby(df_filtrado['Data'].dt.date)['Receita'].sum().reset_index()
+fig_tempo = px.line(receita_tempo, x='Data', y='Receita', markers=True,
+                    title="Evolução da Receita Diária",
+                    labels={'Receita': 'Receita (R$)'})
+st.plotly_chart(fig_tempo, use_container_width=True)
+
+# Tabela de Detalhes das Vendas
+st.subheader("Detalhes das Vendas")
+st.dataframe(df_filtrado, use_container_width=True)
+```
