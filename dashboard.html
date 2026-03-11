@@ -19,7 +19,10 @@
         .main-content {
             padding: 20px;
         }
-        h1, h2, h3 {
+        h1 {
+            color: #0056b3; /* Cor azul mais escura para o título principal */
+        }
+        h2, h3 {
             color: #007bff;
         }
         .plotly-chart-container {
@@ -36,10 +39,15 @@
             box-shadow: 0 2px 4px rgba(0,0,0,.1);
             text-align: center;
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 150px; /* Altura fixa para todos os cards */
         }
         .metric-card h4 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #6c757d;
+            margin-bottom: 10px;
         }
         .metric-card p {
             font-size: 1.8rem;
@@ -55,6 +63,12 @@
         .nav-link:hover {
             color: #0056b3;
         }
+
+        /* Estilos para cores aleatórias dos cards de métrica */
+        .metric-card-random-1 { background-color: #e0f7fa; } /* Azul claro */
+        .metric-card-random-2 { background-color: #fff9c4; } /* Amarelo claro */
+        .metric-card-random-3 { background-color: #fce4ec; } /* Rosa claro */
+        .metric-card-random-4 { background-color: #e8f5e9; } /* Verde claro */
     </style>
 </head>
 <body>
@@ -68,6 +82,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="equipes.html">Equipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="clientes.html">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="custos.html">Custos</a>
                     </li>
                 </ul>
                 <hr>
@@ -97,17 +117,17 @@
 
                 <h2>Visão Geral do Desempenho</h2>
                 <div class="row">
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricExecucoesTitulo">Total de Execuções</h4><p id="metricExecucoesValor">0</p></div></div>
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricSucessoTitulo">Taxa de Sucesso (%)</h4><p id="metricSucessoValor">0.00</p></div></div>
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricDuracaoMediaTitulo">Duração Média (Horas)</h4><p id="metricDuracaoMediaValor">0.00</p></div></div>
-                    <div class="col-md-3"><div class="metric-card"><h4 id="metricTotalFalhasTitulo">Total de Falhas</h4><p id="metricTotalFalhasValor">0</p></div></div>
+                    <div class="col-md-3"><div id="metricCardExecucoes" class="metric-card"><h4 id="metricExecucoesTitulo">Total de Execuções</h4><p id="metricExecucoesValor">0</p></div></div>
+                    <div class="col-md-3"><div id="metricCardSucesso" class="metric-card"><h4 id="metricSucessoTitulo">Taxa de Sucesso (%)</h4><p id="metricSucessoValor">0.00</p></div></div>
+                    <div class="col-md-3"><div id="metricCardDuracao" class="metric-card"><h4 id="metricDuracaoMediaTitulo">Duração Média (Horas)</h4><p id="metricDuracaoMediaValor">0.00</p></div></div>
+                    <div class="col-md-3"><div id="metricCardFalhas" class="metric-card"><h4 id="metricTotalFalhasTitulo">Total de Falhas</h4><p id="metricTotalFalhasValor">0</p></div></div>
                 </div>
                 <hr>
 
                 <h2>Análise Gráfica</h2>
 
                 <div id="figStatusDistContainer" class="plotly-chart-container">
-                    <h3>Distribuição de Status por Tipo de Processo</h3>
+                    <h3>Distribuição de Duração por Tipo de Processo e Status</h3>
                     <div id="figStatusDist"></div>
                 </div>
 
@@ -117,12 +137,12 @@
                 </div>
 
                 <div id="figFalhasDuracaoContainer" class="plotly-chart-container">
-                    <h3>Falhas vs. Duração Média por Tipo de Processo</h3>
+                    <h3>Falhas e Duração Média por Tipo de Processo</h3>
                     <div id="figFalhasDuracao"></div>
                 </div>
 
                 <div id="figTendenciaSucessoContainer" class="plotly-chart-container">
-                    <h3>Tendência de Sucesso Mensal (Simulado)</h3>
+                    <h3>Tendência de Taxa de Sucesso Mensal (Simulado)</h3>
                     <div id="figTendenciaSucesso"></div>
                 </div>
 
@@ -285,6 +305,20 @@
             document.getElementById('metricSucessoValor').textContent = successRate.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('metricDuracaoMediaValor').textContent = averageDuration.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('metricTotalFalhasValor').textContent = totalFailures.toLocaleString('pt-BR');
+
+            // Aplicar cores aleatórias aos cards de métrica
+            const metricCards = [
+                document.getElementById('metricCardExecucoes'),
+                document.getElementById('metricCardSucesso'),
+                document.getElementById('metricCardDuracao'),
+                document.getElementById('metricCardFalhas')
+            ];
+            const colors = ['metric-card-random-1', 'metric-card-random-2', 'metric-card-random-3', 'metric-card-random-4'];
+            metricCards.forEach((card, index) => {
+                card.classList.remove(...colors); // Remove classes de cor existentes
+                card.classList.add(colors[index % colors.length]); // Adiciona a próxima cor da sequência
+            });
+
 
             // Visualizações (Plotly.js)
 
