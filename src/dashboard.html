@@ -3,54 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Processos Automatizados</title>
+    <title>Dashboard de Processos de Venda de Roupas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body {
             background-color: #f8f9fa;
             color: #343a40;
+            font-family: 'Arial', sans-serif;
         }
         .sidebar {
             background-color: #e9ecef;
-            padding: 20px;
-            border-radius: 5px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.05);
         }
         .main-content {
-            padding: 20px;
+            padding: 30px;
         }
         h1 {
-            color: #0056b3; /* Cor azul mais escura para o título principal */
+            color: #0056b3;
+            font-weight: bold;
+            margin-bottom: 25px;
         }
-        h2, h3 {
+        h2 {
             color: #007bff;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #007bff;
+            margin-top: 25px;
+            margin-bottom: 15px;
         }
         .plotly-chart-container {
             background-color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+            margin-bottom: 25px;
+            transition: transform .2s ease-in-out;
+        }
+        .plotly-chart-container:hover {
+            transform: translateY(-5px);
         }
         .metric-card {
             background-color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
             text-align: center;
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 150px; /* Altura fixa para todos os cards */
+            height: 160px; /* Altura fixa para todos os cards */
+            transition: transform .2s ease-in-out;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
         }
         .metric-card h4 {
             font-size: 1.1rem;
             color: #6c757d;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
         .metric-card p {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #007bff;
             margin-bottom: 0;
@@ -59,107 +81,131 @@
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color .3s ease, color .3s ease;
         }
         .nav-link:hover {
-            color: #0056b3;
+            background-color: #007bff;
+            color: white;
         }
-
-        /* Estilos para cores aleatórias dos cards de métrica */
-        .metric-card-random-1 { background-color: #e0f7fa; } /* Azul claro */
-        .metric-card-random-2 { background-color: #fff9c4; } /* Amarelo claro */
-        .metric-card-random-3 { background-color: #fce4ec; } /* Rosa claro */
-        .metric-card-random-4 { background-color: #e8f5e9; } /* Verde claro */
+        .sidebar h2 {
+            border-bottom: none;
+            padding-bottom: 0;
+            color: #343a40;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .sidebar hr {
+            margin: 25px 0;
+            border-top: 1px solid #ced4da;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .form-control, .form-select {
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,.08);
+        }
+        .form-range {
+            cursor: pointer;
+        }
+        /* Cores para os cards de métrica */
+        .metric-card-color-1 { background: linear-gradient(135deg, #007bff, #00c6ff); color: white; }
+        .metric-card-color-2 { background: linear-gradient(135deg, #28a745, #50c878); color: white; }
+        .metric-card-color-3 { background: linear-gradient(135deg, #ffc107, #ffd700); color: #343a40; }
+        .metric-card-color-4 { background: linear-gradient(135deg, #dc3545, #ff6347); color: white; }
     </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 sidebar">
-                <h2>Menu</h2>
+                <h2>Menu Principal</h2>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard de Processos Automatizados</a>
+                        <a class="nav-link active" href="#">Visão Geral de Vendas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="equipes.html">Equipes</a>
+                        <a class="nav-link" href="produtos.html">Produtos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="clientes.html">Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="custos.html">Custos</a>
+                        <a class="nav-link" href="relatorios.html">Relatórios</a>
                     </li>
                 </ul>
                 <hr>
                 <h2>Filtros</h2>
                 <div class="mb-3">
-                    <label for="statusSelect" class="form-label">Filtrar por Status:</label>
+                    <label for="statusSelect" class="form-label">Filtrar por Status da Venda:</label>
                     <select id="statusSelect" class="form-select">
                         <option value="Todos">Todos</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="duracaoSlider" class="form-label">Filtrar por Duração (Horas):</label>
-                    <input type="range" class="form-range" id="duracaoSliderMin" value="0"> - <input type="range" class="form-range" id="duracaoSliderMax" value="0">
-                    <div id="duracaoRangeValues"></div>
+                    <label for="valorSlider" class="form-label">Filtrar por Valor da Venda (R$):</label>
+                    <div class="d-flex justify-content-between">
+                        <span id="valorSliderMinLabel"></span> - <span id="valorSliderMaxLabel"></span>
+                    </div>
+                    <input type="range" class="form-range" id="valorSliderMin" value="0">
+                    <input type="range" class="form-range" id="valorSliderMax" value="0">
                 </div>
                 <div class="mb-3">
-                    <label for="falhasSlider" class="form-label">Filtrar por Falhas:</label>
-                    <input type="range" class="form-range" id="falhasSliderMin" value="0"> - <input type="range" class="form-range" id="falhasSliderMax" value="0">
-                    <div id="falhasRangeValues"></div>
+                    <label for="quantidadeSlider" class="form-label">Filtrar por Quantidade de Itens:</label>
+                     <div class="d-flex justify-content-between">
+                        <span id="quantidadeSliderMinLabel"></span> - <span id="quantidadeSliderMaxLabel"></span>
+                    </div>
+                    <input type="range" class="form-range" id="quantidadeSliderMin" value="0">
+                    <input type="range" class="form-range" id="quantidadeSliderMax" value="0">
                 </div>
                 <hr>
                 <h3>Sobre</h3>
-                <p class="text-muted">Esta é uma dashboard de demonstração com dados fictícios de processos automatizados. Utiliza HTML, CSS e Plotly.js para visualização.</p>
+                <p class="text-muted">Dashboard de vendas de roupas, apresentando métricas e análises visuais para otimizar o processo comercial. Dados fictícios gerados via JavaScript.</p>
             </div>
             <div class="col-md-9 main-content">
-                <h1>🤖 Dashboard de Processos Automatizados Fictícios</h1>
+                <h1>👕 Dashboard de Vendas de Roupas</h1>
 
-                <h2>Visão Geral do Desempenho</h2>
+                <h2>Resumo das Vendas</h2>
                 <div class="row">
-                    <div class="col-md-3"><div id="metricCardExecucoes" class="metric-card"><h4 id="metricExecucoesTitulo">Total de Execuções</h4><p id="metricExecucoesValor">0</p></div></div>
-                    <div class="col-md-3"><div id="metricCardSucesso" class="metric-card"><h4 id="metricSucessoTitulo">Taxa de Sucesso (%)</h4><p id="metricSucessoValor">0.00</p></div></div>
-                    <div class="col-md-3"><div id="metricCardDuracao" class="metric-card"><h4 id="metricDuracaoMediaTitulo">Duração Média (Horas)</h4><p id="metricDuracaoMediaValor">0.00</p></div></div>
-                    <div class="col-md-3"><div id="metricCardFalhas" class="metric-card"><h4 id="metricTotalFalhasTitulo">Total de Falhas</h4><p id="metricTotalFalhasValor">0</p></div></div>
+                    <div class="col-md-3"><div id="metricCardTotalVendas" class="metric-card"><h4 id="metricTotalVendasTitulo">Total de Vendas</h4><p id="metricTotalVendasValor">0</p></div></div>
+                    <div class="col-md-3"><div id="metricCardValorTotal" class="metric-card"><h4 id="metricValorTotalTitulo">Valor Total Vendido</h4><p id="metricValorTotalValor">R$ 0,00</p></div></div>
+                    <div class="col-md-3"><div id="metricCardMediaValor" class="metric-card"><h4 id="metricMediaValorTitulo">Valor Médio por Venda</h4><p id="metricMediaValorValor">R$ 0,00</p></div></div>
+                    <div class="col-md-3"><div id="metricCardItensVendidos" class="metric-card"><h4 id="metricItensVendidosTitulo">Total de Itens Vendidos</h4><p id="metricItensVendidosValor">0</p></div></div>
                 </div>
-                <hr>
 
                 <h2>Análise Gráfica</h2>
 
-                <div id="figStatusDistContainer" class="plotly-chart-container">
-                    <h3>Distribuição de Duração por Tipo de Processo e Status</h3>
-                    <div id="figStatusDist"></div>
+                <div id="figVendasPorStatusContainer" class="plotly-chart-container">
+                    <h3>Vendas por Status da Venda</h3>
+                    <div id="figVendasPorStatus"></div>
                 </div>
 
-                <div id="figExecucoesCatContainer" class="plotly-chart-container">
-                    <h3>Execuções Mensais por Tipo de Processo</h3>
-                    <div id="figExecucoesCat"></div>
+                <div id="figVendasPorMesContainer" class="plotly-chart-container">
+                    <h3>Evolução das Vendas por Mês</h3>
+                    <div id="figVendasPorMes"></div>
                 </div>
 
-                <div id="figFalhasDuracaoContainer" class="plotly-chart-container">
-                    <h3>Falhas e Duração Média por Tipo de Processo</h3>
-                    <div id="figFalhasDuracao"></div>
+                <div id="figTopProdutosContainer" class="plotly-chart-container">
+                    <h3>Top 5 Produtos Vendidos</h3>
+                    <div id="figTopProdutos"></div>
                 </div>
 
-                <div id="figTendenciaSucessoContainer" class="plotly-chart-container">
-                    <h3>Tendência de Taxa de Sucesso Mensal (Simulado)</h3>
-                    <div id="figTendenciaSucesso"></div>
-                </div>
-
-                <h2>Dados Detalhados dos Processos</h2>
+                <h2>Detalhes das Vendas</h2>
                 <div class="table-responsive">
-                    <table id="processTable" class="table table-striped table-hover">
+                    <table id="vendasTable" class="table table-striped table-hover align-middle">
                         <thead>
                             <tr>
-                                <th>ID Processo</th>
-                                <th>Nome Processo</th>
-                                <th>Tipo de Processo</th>
+                                <th>ID Venda</th>
+                                <th>Data</th>
+                                <th>Cliente</th>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Valor Unitário</th>
+                                <th>Valor Total</th>
                                 <th>Status</th>
-                                <th>Duração (Horas)</th>
-                                <th>Data de Início</th>
-                                <th>Falhas</th>
-                                <th>Equipe Responsável</th>
-                                <th>Custo Estimado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -171,24 +217,23 @@
     </div>
 
     <script>
-        // Geração de dados fictícios
-        function generateProcessData(numProcesses = 150) {
-            const statuses = ["Sucesso", "Falha", "Em Andamento", "Cancelado"];
-            const processTypes = ["ETL", "Relatório", "Notificação", "Integração", "Backup"];
-            const teams = ["Alpha", "Beta", "Gama", "Delta"];
+        // Geração de dados fictícios para vendas de roupas
+        function generateSalesData(numSales = 200) {
+            const statuses = ["Concluída", "Pendente", "Cancelada", "Devolvida"];
+            const products = ["Camiseta Básica", "Calça Jeans", "Vestido Floral", "Jaqueta de Couro", "Saia Midi", "Blusa de Seda", "Shorts Esportivo", "Moletom Canguru"];
+            const customers = ["Ana Silva", "Bruno Costa", "Carla Dias", "Daniel Rocha", "Eduarda Lima", "Fábio Souza", "Gabriela Martins", "Hugo Pereira"];
             const data = {
-                "ID Processo": [],
-                "Nome Processo": [],
-                "Tipo de Processo": [],
-                "Status": [],
-                "Duração (Horas)": [],
-                "Data de Início": [],
-                "Falhas": [],
-                "Equipe Responsável": [],
-                "Custo Estimado": []
+                "ID Venda": [],
+                "Data": [],
+                "Cliente": [],
+                "Produto": [],
+                "Quantidade": [],
+                "Valor Unitário": [],
+                "Valor Total": [],
+                "Status": []
             };
 
-            const seed = 42;
+            const seed = 123; // Semente fixa para reprodutibilidade
             const rand = mulberry32(seed);
 
             function mulberry32(a) {
@@ -200,41 +245,53 @@
                 }
             }
 
-            for (let i = 0; i < numProcesses; i++) {
-                data["ID Processo"].push(`PROC-${String(i + 1).padStart(5, '0')}`);
-                data["Nome Processo"].push(`Processo Automatizado ${i + 1}`);
-                data["Tipo de Processo"].push(processTypes[Math.floor(rand() * processTypes.length)]);
-                data["Status"].push(statuses[Math.floor(rand() * statuses.length)]);
-                data["Duração (Horas)"].push(parseFloat((rand() * 23 + 1).toFixed(2))); // Duração entre 1 e 24 horas
-                const start = new Date('2023-01-01').getTime();
-                const end = new Date('2024-03-31').getTime();
-                data["Data de Início"].push(new Date(start + rand() * (end - start)));
-                data["Falhas"].push(Math.floor(rand() * 5)); // Falhas entre 0 e 4
-                data["Equipe Responsável"].push(teams[Math.floor(rand() * teams.length)]);
-                data["Custo Estimado"].push(parseFloat((rand() * 1000 + 50).toFixed(2))); // Custo entre 50 e 1050
-            }
-
-            const df = {
-                "ID Processo": data["ID Processo"],
-                "Nome Processo": data["Nome Processo"],
-                "Tipo de Processo": data["Tipo de Processo"],
-                "Status": data["Status"],
-                "Duração (Horas)": data["Duração (Horas)"],
-                "Data de Início": data["Data de Início"].map(d => d.toISOString().split('T')[0]),
-                "Falhas": data["Falhas"],
-                "Equipe Responsável": data["Equipe Responsável"],
-                "Custo Estimado": data["Custo Estimado"]
+            const priceRanges = {
+                "Camiseta Básica": [30, 60],
+                "Calça Jeans": [100, 250],
+                "Vestido Floral": [120, 300],
+                "Jaqueta de Couro": [300, 800],
+                "Saia Midi": [80, 180],
+                "Blusa de Seda": [150, 350],
+                "Shorts Esportivo": [50, 100],
+                "Moletom Canguru": [90, 180]
             };
 
-            return df;
+            for (let i = 0; i < numSales; i++) {
+                const saleId = `VEN-${String(i + 1).padStart(6, '0')}`;
+                const saleDate = new Date(2023, 0, 1); // Começa em 01/01/2023
+                const daysToAdd = Math.floor(rand() * 365); // Adiciona até 365 dias
+                saleDate.setDate(saleDate.getDate() + daysToAdd);
+
+                const selectedProduct = products[Math.floor(rand() * products.length)];
+                const minPrice = priceRanges[selectedProduct][0];
+                const maxPrice = priceRanges[selectedProduct][1];
+                const unitPrice = parseFloat((minPrice + rand() * (maxPrice - minPrice)).toFixed(2));
+                const quantity = Math.floor(rand() * 5) + 1; // Quantidade entre 1 e 5
+                const totalPrice = parseFloat((unitPrice * quantity).toFixed(2));
+                const selectedStatus = statuses[Math.floor(rand() * statuses.length)];
+
+                data["ID Venda"].push(saleId);
+                data["Data"].push(saleDate);
+                data["Cliente"].push(customers[Math.floor(rand() * customers.length)]);
+                data["Produto"].push(selectedProduct);
+                data["Quantidade"].push(quantity);
+                data["Valor Unitário"].push(unitPrice);
+                data["Valor Total"].push(totalPrice);
+                data["Status"].push(selectedStatus);
+            }
+
+            // Formata as datas para exibição
+            data["Data"] = data["Data"].map(d => d.toISOString().split('T')[0]);
+
+            return data;
         }
 
-        let allProcesses = generateProcessData();
-        let filteredProcesses = JSON.parse(JSON.stringify(allProcesses)); // Cópia profunda inicial
+        let allSales = generateSalesData();
+        let filteredSales = JSON.parse(JSON.stringify(allSales)); // Cópia profunda inicial
 
         // --- Popular Filtros ---
         const statusSelect = document.getElementById('statusSelect');
-        const uniqueStatuses = ["Todos", ...new Set(allProcesses["Status"])].sort();
+        const uniqueStatuses = ["Todos", ...new Set(allSales["Status"])].sort();
         uniqueStatuses.forEach(status => {
             const option = document.createElement('option');
             option.value = status;
@@ -242,286 +299,224 @@
             statusSelect.appendChild(option);
         });
 
-        const duracaoSliderMin = document.getElementById('duracaoSliderMin');
-        const duracaoSliderMax = document.getElementById('duracaoSliderMax');
-        const duracaoRangeValues = document.getElementById('duracaoRangeValues');
-        const minDuration = Math.min(...allProcesses["Duração (Horas)"]);
-        const maxDuration = Math.max(...allProcesses["Duração (Horas)"]);
-        duracaoSliderMin.min = minDuration; duracaoSliderMin.max = maxDuration; duracaoSliderMin.value = minDuration;
-        duracaoSliderMax.min = minDuration; duracaoSliderMax.max = maxDuration; duracaoSliderMax.value = maxDuration;
-        duracaoRangeValues.innerHTML = `${parseFloat(minDuration).toFixed(2)}h - ${parseFloat(maxDuration).toFixed(2)}h`;
+        const valorSliderMin = document.getElementById('valorSliderMin');
+        const valorSliderMax = document.getElementById('valorSliderMax');
+        const valorSliderMinLabel = document.getElementById('valorSliderMinLabel');
+        const valorSliderMaxLabel = document.getElementById('valorSliderMaxLabel');
+        const minTotalValue = Math.min(...allSales["Valor Total"]);
+        const maxTotalValue = Math.max(...allSales["Valor Total"]);
+        valorSliderMin.min = minTotalValue; valorSliderMin.max = maxTotalValue; valorSliderMin.value = minTotalValue;
+        valorSliderMax.min = minTotalValue; valorSliderMax.max = maxTotalValue; valorSliderMax.value = maxTotalValue;
+        valorSliderMinLabel.textContent = `R$ ${parseFloat(minTotalValue).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        valorSliderMaxLabel.textContent = `R$ ${parseFloat(maxTotalValue).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-        const falhasSliderMin = document.getElementById('falhasSliderMin');
-        const falhasSliderMax = document.getElementById('falhasSliderMax');
-        const falhasRangeValues = document.getElementById('falhasRangeValues');
-        const minFailures = Math.min(...allProcesses["Falhas"]);
-        const maxFailures = Math.max(...allProcesses["Falhas"]);
-        falhasSliderMin.min = minFailures; falhasSliderMin.max = maxFailures; falhasSliderMin.value = minFailures;
-        falhasSliderMax.min = minFailures; falhasSliderMax.max = maxFailures; falhasSliderMax.value = maxFailures;
-        falhasRangeValues.innerHTML = `${minFailures} - ${maxFailures}`;
+
+        const quantidadeSliderMin = document.getElementById('quantidadeSliderMin');
+        const quantidadeSliderMax = document.getElementById('quantidadeSliderMax');
+        const quantidadeSliderMinLabel = document.getElementById('quantidadeSliderMinLabel');
+        const quantidadeSliderMaxLabel = document.getElementById('quantidadeSliderMaxLabel');
+        const minQuantity = Math.min(...allSales["Quantidade"]);
+        const maxQuantity = Math.max(...allSales["Quantidade"]);
+        quantidadeSliderMin.min = minQuantity; quantidadeSliderMin.max = maxQuantity; quantidadeSliderMin.value = minQuantity;
+        quantidadeSliderMax.min = minQuantity; quantidadeSliderMax.max = maxQuantity; quantidadeSliderMax.value = maxQuantity;
+        quantidadeSliderMinLabel.textContent = `${minQuantity}`;
+        quantidadeSliderMaxLabel.textContent = `${maxQuantity}`;
 
         // --- Funções de Filtragem e Atualização ---
         function updateFilters() {
             const selectedStatus = statusSelect.value;
-            const currentMinDuration = parseFloat(duracaoSliderMin.value);
-            const currentMaxDuration = parseFloat(duracaoSliderMax.value);
-            const currentMinFailures = parseInt(falhasSliderMin.value);
-            const currentMaxFailures = parseInt(falhasSliderMax.value);
+            const currentMinTotalValue = parseFloat(valorSliderMin.value);
+            const currentMaxTotalValue = parseFloat(valorSliderMax.value);
+            const currentMinQuantity = parseInt(quantidadeSliderMin.value);
+            const currentMaxQuantity = parseInt(quantidadeSliderMax.value);
 
-            filteredProcesses = allProcesses["ID Processo"].map((_, i) => ({
-                "ID Processo": allProcesses["ID Processo"][i],
-                "Nome Processo": allProcesses["Nome Processo"][i],
-                "Tipo de Processo": allProcesses["Tipo de Processo"][i],
-                "Status": allProcesses["Status"][i],
-                "Duração (Horas)": allProcesses["Duração (Horas)"][i],
-                "Data de Início": allProcesses["Data de Início"][i],
-                "Falhas": allProcesses["Falhas"][i],
-                "Equipe Responsável": allProcesses["Equipe Responsável"][i],
-                "Custo Estimado": allProcesses["Custo Estimado"][i]
+            filteredSales = allSales["ID Venda"].map((_, i) => ({
+                "ID Venda": allSales["ID Venda"][i],
+                "Data": allSales["Data"][i],
+                "Cliente": allSales["Cliente"][i],
+                "Produto": allSales["Produto"][i],
+                "Quantidade": allSales["Quantidade"][i],
+                "Valor Unitário": allSales["Valor Unitário"][i],
+                "Valor Total": allSales["Valor Total"][i],
+                "Status": allSales["Status"][i]
             }));
 
             if (selectedStatus !== "Todos") {
-                filteredProcesses = filteredProcesses.filter(p => p.Status === selectedStatus);
+                filteredSales = filteredSales.filter(s => s.Status === selectedStatus);
             }
 
-            filteredProcesses = filteredProcesses.filter(p =>
-                p["Duração (Horas)"] >= currentMinDuration && p["Duração (Horas)"] <= currentMaxDuration &&
-                p["Falhas"] >= currentMinFailures && p["Falhas"] <= currentMaxFailures
+            filteredSales = filteredSales.filter(s =>
+                s["Valor Total"] >= currentMinTotalValue && s["Valor Total"] <= currentMaxTotalValue &&
+                s["Quantidade"] >= currentMinQuantity && s["Quantidade"] <= currentMaxQuantity
             );
 
-            renderDashboard(filteredProcesses);
+            renderDashboard(filteredSales);
         }
 
         // --- Funções de Renderização ---
-        function renderDashboard(processes) {
+        function renderDashboard(sales) {
             // Métricas Principais
-            const totalExecutions = processes.length;
-            const successfulProcesses = processes.filter(p => p.Status === "Sucesso");
-            const successRate = totalExecutions > 0 ? (successfulProcesses.length / totalExecutions) * 100 : 0;
-            const averageDuration = processes.length > 0 ? processes.reduce((sum, p) => sum + p["Duração (Horas)"], 0) / processes.length : 0;
-            const totalFailures = processes.reduce((sum, p) => sum + p.Falhas, 0);
+            const totalSales = sales.length;
+            const totalRevenue = sales.reduce((sum, s) => sum + s["Valor Total"], 0);
+            const averageSaleValue = totalSales > 0 ? totalRevenue / totalSales : 0;
+            const totalItemsSold = sales.reduce((sum, s) => sum + s.Quantidade, 0);
 
-            document.getElementById('metricExecucoesValor').textContent = totalExecutions.toLocaleString('pt-BR');
-            document.getElementById('metricSucessoValor').textContent = successRate.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('metricDuracaoMediaValor').textContent = averageDuration.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('metricTotalFalhasValor').textContent = totalFailures.toLocaleString('pt-BR');
+            document.getElementById('metricTotalVendasValor').textContent = totalSales.toLocaleString('pt-BR');
+            document.getElementById('metricValorTotalValor').textContent = `R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('metricMediaValorValor').textContent = `R$ ${averageSaleValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('metricItensVendidosValor').textContent = totalItemsSold.toLocaleString('pt-BR');
 
-            // Aplicar cores aleatórias aos cards de métrica
+            // Aplicar cores aos cards de métrica
             const metricCards = [
-                document.getElementById('metricCardExecucoes'),
-                document.getElementById('metricCardSucesso'),
-                document.getElementById('metricCardDuracao'),
-                document.getElementById('metricCardFalhas')
+                { id: 'metricCardTotalVendas', colorClass: 'metric-card-color-1', titleId: 'metricTotalVendasTitulo', valueId: 'metricTotalVendasValor' },
+                { id: 'metricCardValorTotal', colorClass: 'metric-card-color-2', titleId: 'metricValorTotalTitulo', valueId: 'metricValorTotalValor' },
+                { id: 'metricCardMediaValor', colorClass: 'metric-card-color-3', titleId: 'metricMediaValorTitulo', valueId: 'metricMediaValorValor' },
+                { id: 'metricCardItensVendidos', colorClass: 'metric-card-color-4', titleId: 'metricItensVendidosTitulo', valueId: 'metricItensVendidosValor' }
             ];
-            const colors = ['metric-card-random-1', 'metric-card-random-2', 'metric-card-random-3', 'metric-card-random-4'];
-            metricCards.forEach((card, index) => {
-                card.classList.remove(...colors); // Remove classes de cor existentes
-                card.classList.add(colors[index % colors.length]); // Adiciona a próxima cor da sequência
+
+            metricCards.forEach(cardInfo => {
+                const cardElement = document.getElementById(cardInfo.id);
+                cardElement.classList.remove('metric-card-color-1', 'metric-card-color-2', 'metric-card-color-3', 'metric-card-color-4'); // Remove classes de cor existentes
+                cardElement.classList.add(cardInfo.colorClass);
             });
 
 
             // Visualizações (Plotly.js)
 
-            // Distribuição de Status por Tipo de Processo
-            const statusDistData = [{
-                type: 'box',
-                y: processes.map(p => p["Duração (Horas)"]),
-                x: processes.map(p => p["Tipo de Processo"]),
-                color: processes.map(p => p.Status),
-                boxpoints: 'outliers',
-                jitter: 0.3,
-                pointpos: -1.8,
-                marker: { color: '#007bff' },
-                line: { width: 1 },
-                showlegend: true
+            // Vendas por Status da Venda (Gráfico de Pizza)
+            const statusCounts = sales.reduce((acc, s) => {
+                acc[s.Status] = (acc[s.Status] || 0) + 1;
+                return acc;
+            }, {});
+            const statusLabels = Object.keys(statusCounts);
+            const statusValues = Object.values(statusCounts);
+
+            const salesStatusData = [{
+                labels: statusLabels,
+                values: statusValues,
+                type: 'pie',
+                hole: .4,
+                marker: { colors: ['#007bff', '#28a745', '#ffc107', '#dc3545'] }
             }];
-            const statusDistLayout = {
-                yaxis: { title: 'Duração (Horas)' },
-                xaxis: { title: 'Tipo de Processo' },
-                margin: { t: 50, b: 50, l: 50, r: 20 },
+            const salesStatusLayout = {
+                margin: { t: 50, b: 20, l: 20, r: 20 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Distribuição de Duração por Tipo de Processo e Status' }
+                showlegend: true,
+                title: { text: 'Distribuição das Vendas por Status' }
             };
-            Plotly.newPlot('figStatusDist', statusDistData, statusDistLayout, {responsive: true});
+            Plotly.newPlot('figVendasPorStatus', salesStatusData, salesStatusLayout, {responsive: true});
 
-            // Execuções Mensais por Tipo de Processo
-            const executionsByMonthType = processes.reduce((acc, p) => {
-                const date = new Date(p["Data de Início"]);
-                const year = date.getFullYear();
-                const month = date.getMonth() + 1; // 0-indexed month
-                const yearMonth = `${year}-${String(month).padStart(2, '0')}`;
-                const processType = p["Tipo de Processo"];
-
-                if (!acc[yearMonth]) {
-                    acc[yearMonth] = {};
+            // Evolução das Vendas por Mês (Gráfico de Linha)
+            const salesByMonth = sales.reduce((acc, s) => {
+                const month = s.Data.substring(0, 7); // Formato YYYY-MM
+                if (!acc[month]) {
+                    acc[month] = { count: 0, totalValue: 0 };
                 }
-                if (!acc[yearMonth][processType]) {
-                    acc[yearMonth][processType] = 0;
-                }
-                acc[yearMonth][processType]++;
+                acc[month].count++;
+                acc[month].totalValue += s["Valor Total"];
                 return acc;
             }, {});
 
-            const sortedMonths = Object.keys(executionsByMonthType).sort();
-            const traces = [];
-            const processTypesInvolved = [...new Set(processes.map(p => p["Tipo de Processo"]))];
+            const sortedMonths = Object.keys(salesByMonth).sort();
+            const monthLabels = sortedMonths.map(m => new Date(m + '-01'));
+            const monthValues = sortedMonths.map(m => salesByMonth[m].totalValue);
 
-            processTypesInvolved.forEach(type => {
-                const traceData = sortedMonths.map(month => ({
-                    x: new Date(`${month}-01`),
-                    y: executionsByMonthType[month] && executionsByMonthType[month][type] ? executionsByMonthType[month][type] : 0
-                }));
-                traces.push({
-                    x: traceData.map(d => d.x),
-                    y: traceData.map(d => d.y),
-                    mode: 'lines+markers',
-                    type: 'scatter',
-                    name: type
-                });
-            });
-
-            const executionsCatLayout = {
-                yaxis: { title: 'Número de Execuções' },
-                xaxis: { title: 'Data' },
-                margin: { t: 50, b: 50, l: 50, r: 20 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Execuções Mensais por Tipo de Processo' }
-            };
-            Plotly.newPlot('figExecucoesCat', traces, executionsCatLayout, {responsive: true});
-
-            // Falhas vs. Duração Média por Tipo de Processo
-            const failureDurationData = processes.reduce((acc, p) => {
-                const type = p["Tipo de Processo"];
-                if (!acc[type]) {
-                    acc[type] = { totalFailures: 0, totalDuration: 0, count: 0 };
-                }
-                acc[type].totalFailures += p.Falhas;
-                acc[type].totalDuration += p["Duração (Horas)"];
-                acc[type].count++;
-                return acc;
-            }, {});
-
-            const failureDurationAggregated = Object.entries(failureDurationData).map(([type, data]) => ({
-                "Tipo de Processo": type,
-                "Total de Falhas": data.totalFailures,
-                "Duração Média": data.totalDuration / data.count
-            }));
-
-            const failureDurationTrace = [{
-                x: failureDurationAggregated.map(d => d["Tipo de Processo"]),
-                y: failureDurationAggregated.map(d => d["Duração Média"]),
-                type: 'bar',
-                name: 'Duração Média (Horas)',
-                marker: { color: '#1f77b4' }
-            }, {
-                x: failureDurationAggregated.map(d => d["Tipo de Processo"]),
-                y: failureDurationAggregated.map(d => d["Total de Falhas"]),
-                type: 'scatter',
-                mode: 'markers',
-                name: 'Total de Falhas',
-                marker: { color: '#d62728', size: 10 },
-                yaxis: 'y2'
-            }];
-            const failureDurationLayout = {
-                yaxis: { title: 'Duração Média (Horas)', color: '#1f77b4' },
-                yaxis2: { title: 'Total de Falhas', overlaying: 'y', side: 'right', color: '#d62728' },
-                xaxis: { title: 'Tipo de Processo' },
-                margin: { t: 50, b: 50, l: 50, r: 50 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Falhas e Duração Média por Tipo de Processo' },
-                legend: { x: 0.1, y: 1.1, orientation: "h" }
-            };
-            Plotly.newPlot('figFalhasDuracao', failureDurationTrace, failureDurationLayout, {responsive: true});
-
-            // Gráfico de Linha: Tendência de Sucesso Mensal (simulado)
-            const successTrendData = processes.reduce((acc, p) => {
-                const date = new Date(p["Data de Início"]);
-                const year = date.getFullYear();
-                const month = date.getMonth() + 1; // 0-indexed month
-                const yearMonth = `${year}-${String(month).padStart(2, '0')}`;
-                if (!acc[yearMonth]) {
-                    acc[yearMonth] = { total: 0, success: 0 };
-                }
-                acc[yearMonth].total++;
-                if (p.Status === "Sucesso") {
-                    acc[yearMonth].success++;
-                }
-                return acc;
-            }, {});
-
-            const sortedSuccessTrend = Object.entries(successTrendData)
-                .map(([ym, data]) => ({ AnoMes: new Date(`${ym}-01`), taxaSucesso: data.total > 0 ? (data.success / data.total) * 100 : 0 }))
-                .sort((a, b) => a.AnoMes - b.AnoMes);
-
-            const successTrendTrace = [{
-                x: sortedSuccessTrend.map(d => d.AnoMes),
-                y: sortedSuccessTrend.map(d => d.taxaSucesso),
+            const salesByMonthData = [{
+                x: monthLabels,
+                y: monthValues,
                 mode: 'lines+markers',
                 type: 'scatter',
-                marker: { color: '#2ca02c' },
-                line: { color: '#2ca02c' },
-                showlegend: false
+                line: { color: '#1f77b4' },
+                marker: { color: '#1f77b4', size: 6 }
             }];
-            const successTrendLayout = {
-                xaxis: { title: 'Data' },
-                yaxis: { title: 'Taxa de Sucesso (%)' },
+            const salesByMonthLayout = {
+                xaxis: { title: 'Mês' },
+                yaxis: { title: 'Valor Total Vendido (R$)' },
                 margin: { t: 50, b: 50, l: 50, r: 20 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                title: { text: 'Tendência de Taxa de Sucesso Mensal (Simulado)' }
+                title: { text: 'Evolução do Valor Total Vendido por Mês' }
             };
-            Plotly.newPlot('figTendenciaSucesso', successTrendTrace, successTrendLayout, {responsive: true});
+            Plotly.newPlot('figVendasPorMes', salesByMonthData, salesByMonthLayout, {responsive: true});
 
-            // Tabela de Dados
-            const tableBody = document.getElementById('processTable').querySelector('tbody');
+            // Top 5 Produtos Vendidos (Gráfico de Barra)
+            const productCounts = sales.reduce((acc, s) => {
+                acc[s.Produto] = (acc[s.Produto] || 0) + 1;
+                return acc;
+            }, {});
+
+            const sortedProducts = Object.entries(productCounts)
+                .sort(([, countA], [, countB]) => countB - countA)
+                .slice(0, 5);
+
+            const productLabels = sortedProducts.map(([product]) => product);
+            const productValues = sortedProducts.map(([, count]) => count);
+
+            const topProductsData = [{
+                x: productLabels,
+                y: productValues,
+                type: 'bar',
+                marker: { color: '#663399' } // Cor púrpura
+            }];
+            const topProductsLayout = {
+                xaxis: { title: 'Produto' },
+                yaxis: { title: 'Quantidade Vendida' },
+                margin: { t: 50, b: 50, l: 50, r: 20 },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                title: { text: 'Top 5 Produtos Mais Vendidos' }
+            };
+            Plotly.newPlot('figTopProdutos', topProductsData, topProductsLayout, {responsive: true});
+
+            // Tabela de Dados de Vendas
+            const tableBody = document.getElementById('vendasTable').querySelector('tbody');
             tableBody.innerHTML = ''; // Limpa o corpo da tabela
-            processes.forEach(p => {
+            sales.forEach(s => {
                 const row = tableBody.insertRow();
                 row.innerHTML = `
-                    <td>${p["ID Processo"]}</td>
-                    <td>${p["Nome Processo"]}</td>
-                    <td>${p["Tipo de Processo"]}</td>
-                    <td>${p.Status}</td>
-                    <td>${p["Duração (Horas)"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>${p["Data de Início"]}</td>
-                    <td>${p.Falhas.toLocaleString('pt-BR')}</td>
-                    <td>${p["Equipe Responsável"]}</td>
-                    <td>R$ ${p["Custo Estimado"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>${s["ID Venda"]}</td>
+                    <td>${s.Data}</td>
+                    <td>${s.Cliente}</td>
+                    <td>${s.Produto}</td>
+                    <td>${s.Quantidade.toLocaleString('pt-BR')}</td>
+                    <td>R$ ${s["Valor Unitário"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>R$ ${s["Valor Total"].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>${s.Status}</td>
                 `;
             });
         }
 
         // --- Event Listeners para Filtros ---
         statusSelect.addEventListener('change', updateFilters);
-        duracaoSliderMin.addEventListener('input', () => {
-            if (parseFloat(duracaoSliderMin.value) > parseFloat(duracaoSliderMax.value)) {
-                duracaoSliderMin.value = duracaoSliderMax.value;
+
+        valorSliderMin.addEventListener('input', () => {
+            if (parseFloat(valorSliderMin.value) > parseFloat(valorSliderMax.value)) {
+                valorSliderMin.value = valorSliderMax.value;
             }
-            duracaoRangeValues.innerHTML = `${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`;
+            valorSliderMinLabel.textContent = `R$ ${parseFloat(valorSliderMin.value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             updateFilters();
         });
-        duracaoSliderMax.addEventListener('input', () => {
-            if (parseFloat(duracaoSliderMax.value) < parseFloat(duracaoSliderMin.value)) {
-                duracaoSliderMax.value = duracaoSliderMin.value;
+        valorSliderMax.addEventListener('input', () => {
+            if (parseFloat(valorSliderMax.value) < parseFloat(valorSliderMin.value)) {
+                valorSliderMax.value = valorSliderMin.value;
             }
-            duracaoRangeValues.innerHTML = `${parseFloat(duracaoSliderMin.value).toFixed(2)}h - ${parseFloat(duracaoSliderMax.value).toFixed(2)}h`;
+            valorSliderMaxLabel.textContent = `R$ ${parseFloat(valorSliderMax.value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             updateFilters();
         });
-        falhasSliderMin.addEventListener('input', () => {
-            if (parseInt(falhasSliderMin.value) > parseInt(falhasSliderMax.value)) {
-                falhasSliderMin.value = falhasSliderMax.value;
+
+        quantidadeSliderMin.addEventListener('input', () => {
+            if (parseInt(quantidadeSliderMin.value) > parseInt(quantidadeSliderMax.value)) {
+                quantidadeSliderMin.value = quantidadeSliderMax.value;
             }
-            falhasRangeValues.innerHTML = `${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`;
+            quantidadeSliderMinLabel.textContent = `${parseInt(quantidadeSliderMin.value)}`;
             updateFilters();
         });
-        falhasSliderMax.addEventListener('input', () => {
-            if (parseInt(falhasSliderMax.value) < parseInt(falhasSliderMin.value)) {
-                falhasSliderMax.value = falhasSliderMin.value;
+        quantidadeSliderMax.addEventListener('input', () => {
+            if (parseInt(quantidadeSliderMax.value) < parseInt(quantidadeSliderMin.value)) {
+                quantidadeSliderMax.value = quantidadeSliderMin.value;
             }
-            falhasRangeValues.innerHTML = `${parseInt(falhasSliderMin.value)} - ${parseInt(falhasSliderMax.value)}`;
+            quantidadeSliderMaxLabel.textContent = `${parseInt(quantidadeSliderMax.value)}`;
             updateFilters();
         });
 
